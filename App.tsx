@@ -1,6 +1,4 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import theme from './src/styles/themes';
 import {
 	useFonts,
 	Inter_300Light,
@@ -8,13 +6,14 @@ import {
 	Inter_600SemiBold,
 	Inter_700Bold
 } from '@expo-google-fonts/inter';
+import Pending from './src/screens/Pending';
 
 export default function App() {
 
 	let [fontsLoaded] = useFonts({
 		Inter_300Light,
 		Inter_400Regular,
-		Inter_600SemiBold, 
+		Inter_600SemiBold,
 		Inter_700Bold,
 	});
 
@@ -23,18 +22,9 @@ export default function App() {
 	}
 
 	return (
-		<View style={styles.container}>
-			<Text>Open up App.tsx to start working on your app!</Text>
+		<>
 			<StatusBar style="auto" />
-		</View>
+			<Pending />
+		</>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: theme.colors.primaryTransparentMin,
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-});

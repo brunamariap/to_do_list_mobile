@@ -1,23 +1,25 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Container, Scrool } from './styles';
+import ResourceCard from '../../components/ResourceCard';
+import theme from '../../styles/themes';
+import ResourceCardsContainer from '../../components/ResourceCardsContainer';
 
 export default function Pending() {
 	return (
-		<View style={styles.container}>
-			<Text>Open up App.js to start working on your app!</Text>
-			<StatusBar style="auto" />
-			<TouchableOpacity>
-				<Text>Teste</Text>
-			</TouchableOpacity>
-		</View>
+		<Container style={{ backgroundColor: theme.colors.primaryTransparent60 }}>
+			<Scrool
+				showsVerticalScrollIndicator={false}
+				contentContainerStyle={{
+					gap: 16,
+					paddingBottom: 32,
+				}}
+			>
+				<ResourceCardsContainer />
+
+				<Container>
+
+				</Container>
+			</Scrool>
+		</Container>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: 'rgba(0, 95, 125, 0.7)',
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-});

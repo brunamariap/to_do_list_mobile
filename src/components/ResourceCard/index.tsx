@@ -1,26 +1,21 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Container, ResourceCardText } from "./styles";
 
-interface StatisticsCardProps {
+interface ResourceCardProps {
 	title: string;
 	total: number;
 }
 
-export default function StatisticsCard({ title, total }: StatisticsCardProps) {
+const ResourceCard = ({
+	title,
+	total }:
+	ResourceCardProps
+) => {
 	return (
-		<View>
-			<Text>{title}</Text>
-			<Text>{total}</Text>
-		</View>
+		<Container>
+			<ResourceCardText>{title}</ResourceCardText>
+			<ResourceCardText>{total}</ResourceCardText>
+		</Container>
 	)
 };
 
-const styles = StyleSheet.create({
-	contatiner: {
-		flex: 1,
-		gap: 8,
-		borderRadius: 8,
-		borderStyle: "solid",
-		borderWidth: 1,
-		borderColor: "#FAFAFA"
-	}
-});
+export default ResourceCard;
