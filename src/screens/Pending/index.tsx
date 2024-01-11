@@ -3,6 +3,9 @@ import { Container, Scrool } from './styles';
 import ResourceCard from '../../components/ResourceCard';
 import theme from '../../styles/themes';
 import ResourceCardsContainer from '../../components/ResourceCardsContainer';
+import TasksContainer from '../../components/TasksContainer';
+import TaskCard from '../../components/TaskCard.py';
+import { FlatList } from 'react-native';
 
 export default function Pending() {
 	return (
@@ -11,14 +14,37 @@ export default function Pending() {
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={{
 					gap: 16,
-					paddingBottom: 32,
+					flexGrow: 1,
 				}}
 			>
 				<ResourceCardsContainer />
-
-				<Container>
-
-				</Container>
+				
+				{/* usar flatList */}
+				<TasksContainer>
+					{/* <FlatList
+						data={tasks}
+					/> */}
+					<TaskCard />
+					<TaskCard isChecked />
+					<TaskCard />
+					<TaskCard />
+					<TaskCard />
+					<TaskCard />
+					<TaskCard />
+					<TaskCard />
+					<TaskCard />
+					<TaskCard />
+					<TaskCard />
+					<TaskCard />
+					<TaskCard />
+					<TaskCard />
+					<TaskCard />
+					<TaskCard />
+					<TaskCard />
+					<TaskCard />
+					<TaskCard />
+					<TaskCard />
+				</TasksContainer>
 			</Scrool>
 		</Container>
 	);

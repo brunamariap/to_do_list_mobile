@@ -7,6 +7,7 @@ import {
 	Inter_700Bold
 } from '@expo-google-fonts/inter';
 import Pending from './src/screens/Pending';
+import theme from './src/styles/themes';
 
 export default function App() {
 
@@ -23,7 +24,7 @@ export default function App() {
 
 	return (
 		<>
-			<StatusBar style="auto" />
+			{/* <StatusBar style='auto' /> */}
 			<Pending />
 		</>
 	);

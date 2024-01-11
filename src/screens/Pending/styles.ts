@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 import styled from "styled-components/native";
 
 const Container = styled.SafeAreaView`
@@ -5,7 +6,8 @@ const Container = styled.SafeAreaView`
 	justify-content: center;
 	align-items: center;
 	width: 100%;
-	padding: 56px 24px 0;
+	/* padding: 0 24px; */
+	/* padding-top: ${Platform.OS === "android" ? 56 : 0}px; */
 `;
 
 const Scrool = styled.ScrollView`

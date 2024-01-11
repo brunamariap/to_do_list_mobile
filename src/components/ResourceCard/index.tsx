@@ -7,9 +7,8 @@ interface ResourceCardProps {
 
 const ResourceCard = ({
 	title,
-	total }:
-	ResourceCardProps
-) => {
+	total 
+}: ResourceCardProps) => {
 	return (
 		<Container>
 			<ResourceCardText>{title}</ResourceCardText>

@@ -4,6 +4,7 @@ const theme = {
 		primaryTransparentMin: "rgba(0, 95, 125, 0.1)",
 		primaryTransparent60: "rgba(0, 95, 125, 0.6)",
 		dark: "#005F7D",
+		darkTransparent: "rgba(0, 50, 73, 0.1)",
 		white: "#FAFAFA",
 		whiteTransparent: "rgba(250, 250, 250, 0.1)",
 		black: "#0B0A0A",
