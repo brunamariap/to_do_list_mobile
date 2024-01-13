@@ -14,6 +14,7 @@ const theme = {
 		greenTransparent: "rgba(25, 192, 92, 0.1)",
 		red: "#F43030",
 		redTransparent: "rgba(244, 48, 48, 0.1)",
+		blackBackground: "rgba(0, 0, 0, 0.5)",
 	},
 
 	fonts: {

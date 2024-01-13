@@ -8,6 +8,7 @@ import {
 } from '@expo-google-fonts/inter';
 import Pending from './src/screens/Pending';
 import theme from './src/styles/themes';
+import TesteModal from './src/screens/Finished';
 
 export default function App() {
 

@@ -1,7 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
 import { Container, Scrool } from './styles';
-import ResourceCard from '../../components/ResourceCard';
-import theme from '../../styles/themes';
 import ResourceCardsContainer from '../../components/ResourceCardsContainer';
 import TasksContainer from '../../components/TasksContainer';
 import TaskCard from '../../components/TaskCard.py';
@@ -18,7 +15,7 @@ const TASKS: Task[] = [
 	{
 		id: 2,
 		title: "Estudar Django",
-		description: "sdyyfbdbfdfd",
+		description: "sdyyfbdbfdfd jdbyhbdybyfbe ndbfybeuwnme",
 		status: "pending",
 		createdAt: new Date(),
 	},
@@ -63,6 +60,8 @@ export default function Pending() {
 						/>
 					))}
 				</TasksContainer>
+
+				
 			</Scrool>
 		</Container>
 	);

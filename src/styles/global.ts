@@ -12,7 +12,7 @@ const Title = styled.Text`
 	`;
 
 const Description = styled.Text`
-	font-family: ${theme.fonts.light};
+	font-family: ${theme.fonts.semibold};
 	font-size: ${theme.sizes.xs}px;
 	color: ${theme.colors.gray};
 `;

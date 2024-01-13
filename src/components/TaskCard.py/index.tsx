@@ -1,10 +1,13 @@
 import { Text, TouchableOpacity, View } from "react-native";
-import { TaskContentContainer, CheckBox, Container } from "./styles";
-import theme from "../../styles/themes";
-import { FaRegTrashCan } from "react-icons/fa6";
 import { Task } from "../../interfaces/Task";
-import { Description, Info, Title } from "../../styles/global";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { formatDate } from "../../utils/formatDate";
+import ConfirmModal from "../ConfirmModal";
+import { useState } from "react";
+
+import theme from "../../styles/themes";
+import { Description, Info, Title } from "../../styles/global";
+import { TaskContentContainer, CheckBox, Container } from "./styles";
 
 interface TaskCardProps {
 	isChecked?: boolean;
@@ -17,6 +20,8 @@ const TaskCard = ({
 	status,
 	createdAt
 }: Task) => {
+
+	const [modalVisible, setModalVisible] = useState(false);
 
 	const TaskContent = () => {
 		return (
@@ -34,6 +39,17 @@ const TaskCard = ({
 	return (
 		<Container status={status}>
 			<TaskContent />
+			<TouchableOpacity style={{ marginRight: 16 }}
+				onPress={() => setModalVisible(true)}
+			>
+				<MaterialCommunityIcons name="trash-can-outline" size={32} color={theme.colors.red} />
+				{modalVisible && (
+					<ConfirmModal
+						// visible={modalVisible}
+						// setVisible={() => setModalVisible(false)}
+					/>
+				)}
+			</TouchableOpacity>
 		</Container>
 	)
 }

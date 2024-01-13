@@ -11,6 +11,8 @@ const Container = styled.View<StyledTaskProps>`
 	padding: 16px;
 	height: 88px;
 	background-color: ${(props) => (props.status === "finished" ? theme.colors.greenTransparent : theme.colors.darkTransparent)};
+	flex-direction: row;
+	align-items: center;
 `;
 
 const TaskContentContainer = styled.SafeAreaView`
@@ -18,6 +20,7 @@ const TaskContentContainer = styled.SafeAreaView`
 	flex-direction: row;
 	gap: 8px;
 	align-items: center;
+	width: 100%;
 `;
 
 const TextContainer = styled.SafeAreaView`
