@@ -3,6 +3,7 @@ import { TaskContentContainer, CheckBox, Container } from "./styles";
 import theme from "../../styles/themes";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { Task } from "../../interfaces/Task";
+import { Title } from "../../styles/global";
 
 interface TaskCardProps {
 	isChecked?: boolean;
@@ -21,7 +22,7 @@ const TaskCard = ({
 			<TaskContentContainer>
 				<CheckBox status={status} />
 				<View>
-					<Text>{title}</Text>
+					<Title>{title}</Title>
 					{description && <Text>{description}</Text>}
 				</View>
 			</TaskContentContainer>

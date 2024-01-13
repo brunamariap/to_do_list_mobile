@@ -7,6 +7,7 @@ const Heading = styled.Text`
 
 const Title = styled.Text`
 	font-family: ${theme.fonts.semibold};
+	font-size: ${theme.sizes.md};
 `;
 
 export { Title };
