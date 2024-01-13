@@ -1,4 +1,5 @@
-import { Container, ResourceCardText } from "./styles";
+import { Title } from "../../styles/global";
+import { Container } from "./styles";
 
 interface ResourceCardProps {
 	title: string;
@@ -11,8 +12,8 @@ const ResourceCard = ({
 }: ResourceCardProps) => {
 	return (
 		<Container>
-			<ResourceCardText>{title}</ResourceCardText>
-			<ResourceCardText>{total}</ResourceCardText>
+			<Title>{title}</Title>
+			<Title>{total}</Title>
 		</Container>
 	)
 };
