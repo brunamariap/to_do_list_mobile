@@ -5,11 +5,43 @@ import theme from '../../styles/themes';
 import ResourceCardsContainer from '../../components/ResourceCardsContainer';
 import TasksContainer from '../../components/TasksContainer';
 import TaskCard from '../../components/TaskCard.py';
-import { FlatList } from 'react-native';
+import { Task } from '../../interfaces/Task';
+import { useState } from 'react';
+
+const TASKS: Task[] = [
+	{
+		id: 1,
+		title: "Estudar React",
+		status: "finished",
+		createdAt: new Date(),
+	},
+	{
+		id: 2,
+		title: "Estudar Django",
+		description: "sdyyfbdbfdfd",
+		status: "pending",
+		createdAt: new Date(),
+	},
+	{
+		id: 3,
+		title: "Almoçar",
+		status: "pending",
+		createdAt: new Date(),
+	},
+	{
+		id: 4,
+		title: "Ler um livro",
+		status: "pending",
+		createdAt: new Date(),
+	},
+]
 
 export default function Pending() {
+
+	const [tasks, setTasks] = useState<Task[]>(TASKS);
+
 	return (
-		<Container style={{ backgroundColor: theme.colors.primaryTransparent60 }}>
+		<Container>
 			<Scrool
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={{
@@ -18,32 +50,18 @@ export default function Pending() {
 				}}
 			>
 				<ResourceCardsContainer />
-				
-				{/* usar flatList */}
+
 				<TasksContainer>
-					{/* <FlatList
-						data={tasks}
-					/> */}
-					<TaskCard />
-					<TaskCard isChecked />
-					<TaskCard />
-					<TaskCard />
-					<TaskCard />
-					<TaskCard />
-					<TaskCard />
-					<TaskCard />
-					<TaskCard />
-					<TaskCard />
-					<TaskCard />
-					<TaskCard />
-					<TaskCard />
-					<TaskCard />
-					<TaskCard />
-					<TaskCard />
-					<TaskCard />
-					<TaskCard />
-					<TaskCard />
-					<TaskCard />
+					{tasks.map(({ id, title, description, status, createdAt }) => (
+						<TaskCard
+							key={id}
+							id={id}
+							title={title}
+							description={description}
+							status={status}
+							createdAt={createdAt}
+						/>
+					))}
 				</TasksContainer>
 			</Scrool>
 		</Container>

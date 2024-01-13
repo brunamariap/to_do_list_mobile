@@ -1,46 +1,37 @@
 import { Text, TouchableOpacity, View } from "react-native";
-import { TaskContentContainer, TaskFinished, TaskPending } from "./styles";
-import CheckBox from "../CheckBox";
+import { TaskContentContainer, CheckBox, Container } from "./styles";
 import theme from "../../styles/themes";
 import { FaRegTrashCan } from "react-icons/fa6";
+import { Task } from "../../interfaces/Task";
 
 interface TaskCardProps {
 	isChecked?: boolean;
 }
 
-const TaskCard = ({ isChecked = false }: TaskCardProps) => {
+const TaskCard = ({
+	id,
+	title,
+	description,
+	status,
+	createdAt
+}: Task) => {
 
 	const TaskContent = () => {
 		return (
 			<TaskContentContainer>
-				{/* <CheckBox taskId={'1'} /> */}
-				<TouchableOpacity style={{
-					width: 22,
-					height: 22,
-					borderWidth: 2,
-					borderColor: theme.colors.dark,
-					borderRadius: 4,
-				}}></TouchableOpacity>
+				<CheckBox status={status} />
 				<View>
-					<Text>Texto de teste</Text>
-					<Text>Descrição de teste</Text>
+					<Text>{title}</Text>
+					{description && <Text>{description}</Text>}
 				</View>
 			</TaskContentContainer>
 		)
 	}
 
 	return (
-		<>
-			{!isChecked ? (
-				<TaskPending>
-					<TaskContent />
-				</TaskPending>
-			) : (
-				<TaskFinished>
-					<TaskContent />
-				</TaskFinished>
-			)}
-		</>
+		<Container status={status}>
+			<TaskContent />
+		</Container>
 	)
 }
 

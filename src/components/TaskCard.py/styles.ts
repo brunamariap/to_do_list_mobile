@@ -1,18 +1,16 @@
 import styled from "styled-components/native";
 import theme from "../../styles/themes";
 
-const ContainerBase = styled.View`
+interface StyledTaskProps {
+	status: "pending" | "finished";
+};
+
+const Container = styled.View<StyledTaskProps>`
 	width: 90%;
 	border-radius: 8px;
 	padding: 16px;
-`;
-
-const TaskPending = styled(ContainerBase)`
-	background-color: ${theme.colors.darkTransparent};
-`;
-
-const TaskFinished = styled(ContainerBase)`
-	background-color: ${theme.colors.greenTransparent};
+	height: 88px;
+	background-color: ${(props) => (props.status === "finished" ? theme.colors.greenTransparent : theme.colors.darkTransparent)};
 `;
 
 const TaskContentContainer = styled.SafeAreaView`
@@ -26,11 +24,13 @@ const TextContainer = styled.SafeAreaView`
 
 `;
 
-const CheckBox = styled.TouchableOpacity`
-	width: 22px;
-	height: 22px;
+
+const CheckBox = styled.TouchableOpacity<StyledTaskProps>`
+	width: 28px;
+	height: 28px;
 	border-width: 2px;
+	border-color: ${(props) => (props.status === "finished" ? theme.colors.green : theme.colors.dark)};
 	border-radius: 4px;
 `;
 
-export { TaskPending, TaskFinished, TaskContentContainer, TextContainer };
+export { Container, TaskContentContainer, TextContainer, CheckBox };
