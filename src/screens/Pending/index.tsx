@@ -9,6 +9,7 @@ const TASKS: Task[] = [
 	{
 		id: 1,
 		title: "Estudar React",
+		description: "sdyyfb",
 		status: "finished",
 		createdAt: new Date(),
 	},

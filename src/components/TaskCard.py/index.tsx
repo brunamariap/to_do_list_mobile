@@ -1,13 +1,22 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Task } from "../../interfaces/Task";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { formatDate } from "../../utils/formatDate";
-import ConfirmModal from "../ConfirmModal";
+import Modal from "../Modal";
 import { useState } from "react";
 
 import theme from "../../styles/themes";
 import { Description, Info, Title } from "../../styles/global";
-import { TaskContentContainer, CheckBox, Container } from "./styles";
+import {
+	TaskContentContainer,
+	CheckBox,
+	Container,
+	ButtonsContainer,
+	TextButton,
+	ModalContainer,
+	ModalTextDescription
+} from "./styles";
+import Button from "../Button";
 
 interface TaskCardProps {
 	isChecked?: boolean;
@@ -21,7 +30,10 @@ const TaskCard = ({
 	createdAt
 }: Task) => {
 
-	const [modalVisible, setModalVisible] = useState(false);
+	const [showDeleteTaskModal, setShowDeleteTaskModal] = useState(false);
+
+	const toggleDeleteTaskModal = () =>
+		setShowDeleteTaskModal((visible) => !visible)
 
 	const TaskContent = () => {
 		return (
@@ -30,7 +42,11 @@ const TaskCard = ({
 				<View>
 					<Title>{title}</Title>
 					<Info>{formatDate(createdAt)}</Info>
-					{description && <Description>{description}</Description>}
+					{description &&
+						<Description>
+							{description.substring(0, 10)}{description.length > 10 && "..."}
+						</Description>
+					}
 				</View>
 			</TaskContentContainer>
 		)
@@ -40,14 +56,38 @@ const TaskCard = ({
 		<Container status={status}>
 			<TaskContent />
 			<TouchableOpacity style={{ marginRight: 16 }}
-				onPress={() => setModalVisible(true)}
+				onPress={() => toggleDeleteTaskModal()}
 			>
-				<MaterialCommunityIcons name="trash-can-outline" size={32} color={theme.colors.red} />
-				{modalVisible && (
-					<ConfirmModal
-						// visible={modalVisible}
-						// setVisible={() => setModalVisible(false)}
-					/>
+				<MaterialCommunityIcons
+					name="trash-can-outline"
+					size={32}
+					color={theme.colors.red}
+				/>
+				{showDeleteTaskModal && (
+					<Modal
+						visible={showDeleteTaskModal}
+						setVisible={() => toggleDeleteTaskModal()}
+					>
+						<ModalContainer>
+							<Title>Tem certeza?</Title>
+							<ModalTextDescription>Deseja excluir essa tarefa permanentemente?</ModalTextDescription>
+							<ButtonsContainer>
+								<Button
+									width="40%"
+									type="primary"
+									onPress={() => toggleDeleteTaskModal()}
+								>
+									<TextButton type="primary">Confirmar</TextButton>
+								</Button>
+								<Button
+									width="40%"
+									onPress={() => toggleDeleteTaskModal()}
+								>
+									<TextButton type="cancel">Cancelar</TextButton>
+								</Button>
+							</ButtonsContainer>
+						</ModalContainer>
+					</Modal>
 				)}
 			</TouchableOpacity>
 		</Container>

@@ -1,8 +1,11 @@
 import styled from "styled-components/native";
 import theme from "./themes";
 
-const Heading = styled.Text`
-
+const ContainerCenter = styled.SafeAreaView`
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+	/* margin-top: 22px; */
 `;
 
 const Title = styled.Text`
@@ -23,4 +26,4 @@ const Info = styled.Text`
 	color: ${theme.colors.gray};
 `;
 
-export { Title, Description, Info };
+export { Title, Description, Info, ContainerCenter };

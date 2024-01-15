@@ -1,22 +1,33 @@
 import React from "react";
-import { TouchableOpacity, Text } from "react-native";
+import { TouchableOpacityProps } from "react-native";
+import { Container } from "./styles";
 
-interface ButtonProps {
-	text: string;
-	loading: boolean;
-	type?: undefined | "cancel";
+interface ButtonProps extends TouchableOpacityProps {
+	children: React.ReactNode;
+	loading?: boolean;
+	width?: string;
+	height?: string;
+	type?: "primary" | "cancel";
 }
 
 const Button = ({
-	text,
+	children,
 	loading = false,
+	width,
+	height,
 	type,
 	...props
 }: ButtonProps) => {
 	return (
-		<TouchableOpacity disabled={loading} {...props}>
-			<Text>{text}</Text>
-		</TouchableOpacity>
+		<Container
+			disabled={loading}
+			type={type}
+			width={width}
+			height={height}
+			{...props}
+		>
+			{children}
+		</Container>
 	)
 }
 
