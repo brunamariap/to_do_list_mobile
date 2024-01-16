@@ -6,7 +6,6 @@ const Container = styled.SafeAreaView`
 	justify-content: center;
 	align-items: center;
 	gap: 24px;
-	padding-bottom: 48px;
 	padding: 24px 0 48px;
 	border-top-right-radius: 32px;
 	border-top-left-radius: 32px;

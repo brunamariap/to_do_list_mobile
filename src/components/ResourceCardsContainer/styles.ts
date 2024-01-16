@@ -5,8 +5,9 @@ const Container = styled.SafeAreaView`
 	gap: 16px;
 	justify-content: center;
 	align-items: center;
-	width: 100%;
+	width: 90%;
 	flex-direction: row;
+	align-self: center;
 `;
 
 export { Container };

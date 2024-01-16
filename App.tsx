@@ -8,7 +8,7 @@ import {
 } from '@expo-google-fonts/inter';
 import Pending from './src/screens/Pending';
 import theme from './src/styles/themes';
-import TesteModal from './src/screens/Finished';
+import AddTask from './src/screens/AddTask';
 
 export default function App() {
 
@@ -26,7 +26,7 @@ export default function App() {
 	return (
 		<>
 			{/* <StatusBar style='auto' /> */}
-			<Pending />
+			<AddTask />
 		</>
 	);
 }
