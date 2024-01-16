@@ -1,30 +1,36 @@
 import styled from "styled-components/native";
 import theme from '../../styles/themes';
-import { InputProps } from ".";
+import { TextInputProps } from "react-native";
 
-interface StyledTextInputProps {
-	isFocused: boolean;
+interface StyledTextInputProps extends TextInputProps{
+	isFocusedInput: boolean;
 };
 
-const Container = styled.SafeAreaView<InputProps>`
-	
+const Container = styled.SafeAreaView`
+	width: 100%;
+	gap: 8px;
 `;
 
-const TextInputContainer = styled.TextInput<InputProps>`
+const LabelText = styled.Text`
+	font-family: ${theme.fonts.semibold};
+	font-size: ${theme.sizes.md}px;
+	color: ${theme.colors.black};
+`;
+
+const TextInputContainer = styled.TextInput<StyledTextInputProps>`
 	width: 100%;
 	background-color: ${theme.colors.white};
 	flex-direction: row;
 	border: ${(props) => (
 		props.isFocusedInput
-			? `1px solid ${theme.colors.dark}`
-			: 'none'
+			? `1.5px solid ${theme.colors.dark}`
+			: `1.5px solid ${theme.colors.gray}`
 	)};
 	align-items: center;
 	justify-content: space-between;
 	border-radius: 8px;
-	/* flex: 1; */
 	padding: 24px 12px;
 `;
 
-export { Container, TextInputContainer };
+export { Container, LabelText, TextInputContainer };
 

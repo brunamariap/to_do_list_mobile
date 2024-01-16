@@ -1,28 +1,36 @@
 import { useState } from "react";
-import { TextInputProps } from "react-native";
-import { Container, TextInputContainer } from "./styles";
+import { Container, LabelText, TextInputContainer } from "./styles";
 
-export interface InputProps extends TextInputProps {
+export interface TextAreaProps {
+	label: string;
 	placeholder: string;
 	isFocusedInput?: boolean;
 };
 
 const TextAreaInput = ({
+	label,
 	placeholder,
 	isFocusedInput,
 	...props
-}: InputProps) => {
+}: TextAreaProps) => {
 	const [isFocused, setIsFocused] = useState(false);
 
 	const toogleFocusInput = () =>
 		setIsFocused((focused) => !focused)
 
 	return (
-		<TextInputContainer
-			placeholder={placeholder}
-			isFocusedInput={isFocused}
-			{...props}
-		/>
+		<Container>
+			<LabelText>{label}</LabelText>
+			<TextInputContainer
+				placeholder={placeholder}
+				onFocus={toogleFocusInput}
+				onBlur={toogleFocusInput}
+				isFocusedInput={isFocused}
+				multiline
+				numberOfLines={3}
+				{...props}
+			/>
+		</Container>
 	);
 };
 

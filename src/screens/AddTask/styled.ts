@@ -19,7 +19,8 @@ const MainContainer = styled.SafeAreaView`
 `;
 
 const InputsContainer = styled.SafeAreaView`
-
+	width: 100%;
+	gap: 16px;
 `;
 
 export { Container, MainContainer, InputsContainer };

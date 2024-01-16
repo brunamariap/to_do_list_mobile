@@ -1,6 +1,5 @@
 import styled from "styled-components/native";
 import theme from '../../styles/themes';
-import { InputProps } from ".";
 import { TextInputProps } from "react-native";
 
 interface StyledTextInputProps extends TextInputProps{
@@ -9,6 +8,7 @@ interface StyledTextInputProps extends TextInputProps{
 
 const Container = styled.SafeAreaView`
 	width: 100%;
+	gap: 8px;
 `;
 
 const LabelText = styled.Text`
