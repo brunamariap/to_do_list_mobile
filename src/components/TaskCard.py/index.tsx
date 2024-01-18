@@ -1,6 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Task } from "../../interfaces/Task";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 import { formatDate } from "../../utils/formatDate";
 import Modal from "../Modal";
 import { useState } from "react";
@@ -17,18 +15,24 @@ import {
 	ModalTextDescription
 } from "./styles";
 import Button from "../Button";
+import { Trash2 } from "react-native-feather";
 
-interface TaskCardProps {
-	isChecked?: boolean;
+interface TaskCardProps extends TouchableOpacityProps {
+	taskId: string | number;
+	title: string;
+	description?: string;
+	status: "pending" | "finished";
+	createdAt: Date;
 }
 
 const TaskCard = ({
-	id,
+	taskId,
 	title,
 	description,
 	status,
-	createdAt
-}: Task) => {
+	createdAt,
+	...props
+}: TaskCardProps) => {
 
 	const [showDeleteTaskModal, setShowDeleteTaskModal] = useState(false);
 
@@ -53,14 +57,14 @@ const TaskCard = ({
 	}
 
 	return (
-		<Container status={status}>
+		<Container status={status} {...props}>
 			<TaskContent />
 			<TouchableOpacity style={{ marginRight: 16 }}
 				onPress={() => toggleDeleteTaskModal()}
 			>
-				<MaterialCommunityIcons
-					name="trash-can-outline"
-					size={32}
+				<Trash2
+					width={28}
+					height={28}
 					color={theme.colors.red}
 				/>
 				{showDeleteTaskModal && (

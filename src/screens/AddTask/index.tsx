@@ -1,11 +1,20 @@
-// Ao criar uma task, o título dela deve conter, no máximo 20 caracteres
-
+import { useState } from "react";
 import Heading from "../../components/Heading";
 import Input from "../../components/Input";
 import TextAreaInput from "../../components/TextAreaInput";
-import { Container, InputsContainer, MainContainer } from "./styled"
+import {
+	Container,
+	InputsContainer,
+	MainContainer,
+	ButtonsContainer,
+	TextButton
+} from "./styles"
+import Button from "../../components/Button";
 
 const AddTask = () => {
+
+	const [isLoading, setIsLoading] = useState(false);
+
 	return (
 		<Container>
 			<MainContainer>
@@ -15,6 +24,7 @@ const AddTask = () => {
 				/>
 				<InputsContainer>
 					<Input
+						maxLength={20}
 						label="Nome"
 						placeholder="Digite o nome da tarefa"
 					/>
@@ -23,6 +33,15 @@ const AddTask = () => {
 						placeholder="Insira uma descrição"
 					/>
 				</InputsContainer>
+
+				<ButtonsContainer>
+					<Button type="primary">
+						<TextButton type="primary">Confirmar</TextButton>
+					</Button>
+					<Button type="cancel">
+						<TextButton type="cancel">Cancelar</TextButton>
+					</Button>
+				</ButtonsContainer>
 			</MainContainer>
 		</Container>
 	)

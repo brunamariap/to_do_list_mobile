@@ -6,6 +6,7 @@ import { Task } from '../../interfaces/Task';
 import { useEffect, useState } from 'react';
 import SearchBar from '../../components/SearchBar';
 import Logo from '../../assets/images/logo.svg';
+import { useNavigation } from '@react-navigation/native';
 
 const TASKS: Task[] = [
 	{
@@ -56,6 +57,8 @@ const TASKS: Task[] = [
 
 export default function Pending() {
 
+	const navigation = useNavigation();
+
 	const [tasks, setTasks] = useState<Task[]>(TASKS);
 
 	useEffect(() => {
@@ -83,11 +86,12 @@ export default function Pending() {
 					{tasks.map(({ id, title, description, status, createdAt }) => (
 						<TaskCard
 							key={id}
-							id={id}
+							taskId={id}
 							title={title}
 							description={description}
 							status={status}
 							createdAt={createdAt}
+							// onPress={() => {navigation.navigate("TaskDetails", {tasksId: 122})}}
 						/>
 					))}
 				</TasksContainer>

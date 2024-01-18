@@ -9,6 +9,9 @@ import {
 import Pending from './src/screens/Pending';
 import theme from './src/styles/themes';
 import AddTask from './src/screens/AddTask';
+import Routes from './src/routes';
+import { SafeAreaProvider } from "react-native-safe-area-context"
+import { NavigationContainer } from '@react-navigation/native';
 
 export default function App() {
 
@@ -24,9 +27,8 @@ export default function App() {
 	}
 
 	return (
-		<>
-			{/* <StatusBar style='auto' /> */}
-			<AddTask />
-		</>
+		<SafeAreaProvider>
+			<Routes />
+		</SafeAreaProvider>
 	);
 }

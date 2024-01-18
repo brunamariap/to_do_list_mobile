@@ -17,7 +17,7 @@ const Container = styled.TouchableOpacity<StyledButtonProps>`
 	justify-content: center;
 	border-radius: 8px;
 	width: ${(props) => (
-		props.width ? props.width : '90%'
+		props.width ? props.width : '100%'
 	)};
 	height: ${(props) => (
 		props.height ? props.height : '48px'

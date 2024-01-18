@@ -1,6 +1,6 @@
 export interface Task {
 	id: string | number;
-	title: string; // Deve ter um limite de 20 caracteres
+	title: string;
 	description?: string;
 	status: "pending" | "finished";
 	createdAt: Date;

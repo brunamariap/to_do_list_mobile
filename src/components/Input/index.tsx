@@ -3,12 +3,14 @@ import { Container, LabelText, TextInputContainer } from "./styles";
 
 export interface InputProps {
 	label: string;
+	maxLength?: number;
 	placeholder: string;
 	isFocusedInput?: boolean;
 };
 
 const Input = ({
 	label,
+	maxLength,
 	placeholder,
 	isFocusedInput,
 	...props
@@ -22,6 +24,7 @@ const Input = ({
 		<Container>
 			<LabelText>{label}</LabelText>
 			<TextInputContainer
+				maxLength={maxLength}
 				placeholder={placeholder}
 				onFocus={toogleFocusInput}
 				onBlur={toogleFocusInput}

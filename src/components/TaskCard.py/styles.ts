@@ -1,7 +1,8 @@
 import styled from "styled-components/native";
 import theme from "../../styles/themes";
+import { TouchableOpacityProps } from "react-native";
 
-interface StyledTaskCardProps {
+interface StyledTaskCardProps extends TouchableOpacityProps {
 	status: "pending" | "finished";
 };
 
@@ -9,7 +10,7 @@ interface StyledButtonTextProps {
 	type?: "cancel" | "primary";
 };
 
-const Container = styled.View<StyledTaskCardProps>`
+const Container = styled.TouchableOpacity<StyledTaskCardProps>`
 	width: 90%;
 	border-radius: 8px;
 	padding: 16px;

@@ -21,7 +21,9 @@ const Container = styled.SafeAreaView<StyledTextInputProps>`
 `;
 
 const SearchButton = styled.TouchableOpacity`
+	padding: 10px 0;
 	margin-right: 16px;
+	/* background-color: red; */
 `;
 
 const TextInputContainer = styled.TextInput`
