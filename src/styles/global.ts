@@ -1,9 +1,25 @@
 import styled from "styled-components/native";
 import theme from "./themes";
+import { Platform } from "react-native";
 
 interface StyledTabLabel {
 	focused: boolean;
 }
+
+const ScreenContainerMain = styled.SafeAreaView`
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	/* padding: 0 24px; */
+	padding-top: ${Platform.OS === "android" ? 56 : 0}px;
+	background-color: ${theme.colors.primaryTransparent60};
+`;
+
+const Scrool = styled.ScrollView`
+	flex: 1;
+	width: 100%;
+`;
 
 const ContainerCenter = styled.SafeAreaView`
 	flex: 1;
@@ -40,4 +56,12 @@ const TabLabel = styled.Text<StyledTabLabel>`
 	margin-bottom: 8px;
 `;
 
-export { Title, Description, Info, ContainerCenter, TabLabel };
+export {
+	ScreenContainerMain,
+	Scrool,
+	Title,
+	Description,
+	Info, 
+	ContainerCenter,
+	TabLabel
+};

@@ -1,4 +1,3 @@
-import { Container, Scrool } from './styles';
 import ResourceCardsContainer from '../../components/ResourceCardsContainer';
 import TasksContainer from '../../components/TasksContainer';
 import TaskCard from '../../components/TaskCard.py';
@@ -7,6 +6,7 @@ import { useEffect, useState } from 'react';
 import SearchBar from '../../components/SearchBar';
 import Logo from '../../assets/images/logo.svg';
 import { useNavigation } from '@react-navigation/native';
+import { ScreenContainerMain, Scrool } from '../../styles/global';
 
 const TASKS: Task[] = [
 	{
@@ -62,7 +62,7 @@ const TASKS: Task[] = [
 	},
 ]
 
-export default function Pending() {
+const Pending = () => {
 
 	const navigation = useNavigation();
 
@@ -86,7 +86,7 @@ export default function Pending() {
 	}
 
 	return (
-		<Container>
+		<ScreenContainerMain>
 			<Logo />
 			<Scrool
 				showsVerticalScrollIndicator={false}
@@ -103,7 +103,14 @@ export default function Pending() {
 				<ResourceCardsContainer />
 
 				<TasksContainer>
-					{tasks.map(({ id, title, description, status, createdAt, isChecked }) => (
+					{tasks.map(({
+						id, 
+						title,
+						description,
+						status, 
+						createdAt, 
+						isChecked
+					}) => (
 						<TaskCard
 							key={id}
 							taskId={id}
@@ -120,6 +127,8 @@ export default function Pending() {
 
 
 			</Scrool>
-		</Container>
+		</ScreenContainerMain>
 	);
 }
+
+export default Pending;

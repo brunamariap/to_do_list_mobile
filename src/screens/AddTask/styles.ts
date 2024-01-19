@@ -22,6 +22,8 @@ const MainContainer = styled.SafeAreaView`
 	gap: 16px;
 `;
 
+// mudar o aling self do primeiro e do ultimo componente
+
 const InputsContainer = styled.SafeAreaView`
 	width: 100%;
 	gap: 16px;
