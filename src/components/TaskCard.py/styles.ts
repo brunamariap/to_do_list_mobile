@@ -49,8 +49,8 @@ const ModalTextDescription = styled.Text`
 `;
 
 const CheckBox = styled.TouchableOpacity<StyledTaskCardProps>`
-	width: 28px;
-	height: 28px;
+	width: 32px;
+	height: 32px;
 	border-width: 2px;
 	border-color: ${(props) => (
 		props.status === "finished"
@@ -58,6 +58,8 @@ const CheckBox = styled.TouchableOpacity<StyledTaskCardProps>`
 			: theme.colors.dark
 	)};
 	border-radius: 4px;
+	align-items: center;
+	justify-content: center;
 `;
 
 const ButtonsContainer = styled.SafeAreaView`

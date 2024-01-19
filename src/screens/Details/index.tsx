@@ -1,10 +1,15 @@
-import { Text, View } from "react-native";
+import { Text } from "react-native";
+import { Container } from "./styles";
+import Heading from "../../components/Heading";
 
 const TaskDetails = () => {
 	return (
-		<View>
-			<Text>Test</Text>
-		</View>
+		<Container>
+			<Heading
+				title="Nome tarefa"
+				description="12 nov. 2023"
+			/>
+		</Container>
 	)
 }
 

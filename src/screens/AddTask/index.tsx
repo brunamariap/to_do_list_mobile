@@ -36,7 +36,7 @@ const AddTask = () => {
 
 				<ButtonsContainer>
 					<Button type="primary">
-						<TextButton type="primary">Confirmar</TextButton>
+						<TextButton type="primary">Salvar</TextButton>
 					</Button>
 					<Button type="cancel">
 						<TextButton type="cancel">Cancelar</TextButton>

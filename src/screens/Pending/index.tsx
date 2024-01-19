@@ -15,6 +15,7 @@ const TASKS: Task[] = [
 		description: "sdyyfb",
 		status: "finished",
 		createdAt: new Date(),
+		isChecked: true,
 	},
 	{
 		id: 2,
@@ -22,36 +23,42 @@ const TASKS: Task[] = [
 		description: "sdyyfbdbfdfd jdbyhbdybyfbe ndbfybeuwnme",
 		status: "pending",
 		createdAt: new Date(),
+		isChecked: false,
 	},
 	{
 		id: 3,
 		title: "Almoçar",
 		status: "pending",
 		createdAt: new Date(),
+		isChecked: false,
 	},
 	{
 		id: 4,
 		title: "Ler um livro",
 		status: "pending",
 		createdAt: new Date(),
+		isChecked: false,
 	},
 	{
 		id: 5,
 		title: "Ler um livro",
 		status: "pending",
 		createdAt: new Date(),
+		isChecked: false,
 	},
 	{
 		id: 6,
 		title: "Ler um livro",
 		status: "pending",
 		createdAt: new Date(),
+		isChecked: false,
 	},
 	{
 		id: 7,
 		title: "Ler um livro",
 		status: "pending",
 		createdAt: new Date(),
+		isChecked: false,
 	},
 ]
 
@@ -64,6 +71,19 @@ export default function Pending() {
 	useEffect(() => {
 
 	}, [tasks])
+
+	const handleCheckTask = (taskId: number | string, newStatus: string) => {
+		setTasks((prevTasks) =>
+			prevTasks.map((task) =>
+				task.id === taskId ?
+					{
+						...task,
+						status: newStatus,
+						isChecked: newStatus === "finished"
+					} : task
+			)
+		);
+	}
 
 	return (
 		<Container>
@@ -83,7 +103,7 @@ export default function Pending() {
 				<ResourceCardsContainer />
 
 				<TasksContainer>
-					{tasks.map(({ id, title, description, status, createdAt }) => (
+					{tasks.map(({ id, title, description, status, createdAt, isChecked }) => (
 						<TaskCard
 							key={id}
 							taskId={id}
@@ -91,7 +111,9 @@ export default function Pending() {
 							description={description}
 							status={status}
 							createdAt={createdAt}
-							// onPress={() => {navigation.navigate("TaskDetails", {tasksId: 122})}}
+							isChecked={isChecked}
+							onPress={() => navigation.navigate('TaskDetails')}
+							setStatus={() => handleCheckTask(id, "finished")}
 						/>
 					))}
 				</TasksContainer>

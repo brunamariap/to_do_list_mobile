@@ -1,7 +1,7 @@
 import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 import { formatDate } from "../../utils/formatDate";
 import Modal from "../Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import theme from "../../styles/themes";
 import { Description, Info, Title } from "../../styles/global";
@@ -15,7 +15,7 @@ import {
 	ModalTextDescription
 } from "./styles";
 import Button from "../Button";
-import { Trash2 } from "react-native-feather";
+import { Check, Trash2 } from "react-native-feather";
 
 interface TaskCardProps extends TouchableOpacityProps {
 	taskId: string | number;
@@ -23,6 +23,8 @@ interface TaskCardProps extends TouchableOpacityProps {
 	description?: string;
 	status: "pending" | "finished";
 	createdAt: Date;
+	isChecked: boolean;
+	setStatus: () => void;
 }
 
 const TaskCard = ({
@@ -31,6 +33,8 @@ const TaskCard = ({
 	description,
 	status,
 	createdAt,
+	isChecked,
+	setStatus,
 	...props
 }: TaskCardProps) => {
 
@@ -42,7 +46,11 @@ const TaskCard = ({
 	const TaskContent = () => {
 		return (
 			<TaskContentContainer>
-				<CheckBox status={status} />
+				<CheckBox onPress={() => setStatus()} status={status}>
+          {isChecked && (
+            <Check color={theme.colors.green} width={20} height={20} />
+          )}
+        </CheckBox>
 				<View>
 					<Title>{title}</Title>
 					<Info>{formatDate(createdAt)}</Info>
