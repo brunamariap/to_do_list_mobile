@@ -1,14 +1,15 @@
 import ResourceCardsContainer from '../../components/ResourceCardsContainer';
 import TasksContainer from '../../components/TasksContainer';
 import TaskCard from '../../components/TaskCard.py';
-import { Task } from '../../interfaces/Task';
+import { TaskData } from '../../interfaces/Task';
 import { useEffect, useState } from 'react';
 import SearchBar from '../../components/SearchBar';
 import Logo from '../../assets/images/logo.svg';
 import { useNavigation } from '@react-navigation/native';
 import { ScreenContainerMain, Scrool } from '../../styles/global';
+import { useTask } from '../../contexts/TaskContext';
 
-const TASKS: Task[] = [
+const TASKS: TaskData[] = [
 	{
 		id: 1,
 		title: "Estudar React",
@@ -66,14 +67,21 @@ const Pending = () => {
 
 	const navigation = useNavigation();
 
-	const [tasks, setTasks] = useState<Task[]>(TASKS);
+	// const [tasks, setTasks] = useState<TaskData[]>(TASKS);
+
+	const {
+		pendingTasks,
+		setTasks,
+		setPendingTasks,
+		getPendingTasks,
+	} = useTask();
 
 	useEffect(() => {
-
-	}, [tasks])
+		getPendingTasks();
+	}, [])
 
 	const handleCheckTask = (taskId: number | string, newStatus: string) => {
-		setTasks((prevTasks) =>
+		setPendingTasks((prevTasks) =>
 			prevTasks.map((task) =>
 				task.id === taskId ?
 					{
@@ -83,6 +91,7 @@ const Pending = () => {
 					} : task
 			)
 		);
+		// getPendingTasks();
 	}
 
 	return (
@@ -103,12 +112,12 @@ const Pending = () => {
 				<ResourceCardsContainer />
 
 				<TasksContainer>
-					{tasks.map(({
-						id, 
+					{pendingTasks?.map(({
+						id,
 						title,
 						description,
-						status, 
-						createdAt, 
+						status,
+						createdAt,
 						isChecked
 					}) => (
 						<TaskCard

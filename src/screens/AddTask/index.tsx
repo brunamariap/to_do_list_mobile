@@ -2,6 +2,8 @@ import { useState } from "react";
 import Heading from "../../components/Heading";
 import Input from "../../components/Input";
 import TextAreaInput from "../../components/TextAreaInput";
+import Button from "../../components/Button";
+
 import {
 	Container,
 	InputsContainer,
@@ -9,11 +11,38 @@ import {
 	ButtonsContainer,
 	TextButton
 } from "./styles"
-import Button from "../../components/Button";
+
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup"
+import { Controller, useForm } from "react-hook-form";
+import { useNavigation } from "@react-navigation/native";
 
 const AddTask = () => {
 
+	const navigation = useNavigation();
+
 	const [isLoading, setIsLoading] = useState(false);
+
+	const schema = yup.object().shape({
+		title: yup
+			.string()
+			.min(3, "Insira pelo menos 3 caracteres")
+			.max(20, "Campo aceita apenas 20 caracteres")
+			.required("Campo obrigatório"),
+		description: yup.string()
+	});
+
+	const {
+		control,
+		handleSubmit,
+		formState: { isSubmitting, errors },
+	} = useForm({
+		resolver: yupResolver(schema),
+	});
+
+	const onSubmitTask = (data) => {
+		console.log("dados", data)
+	};
 
 	return (
 		<Container>
@@ -23,22 +52,46 @@ const AddTask = () => {
 					description="Preencha as informações abaixo parar criar uma nova tarefa"
 				/>
 				<InputsContainer>
-					<Input
-						maxLength={20}
-						label="Nome"
-						placeholder="Digite o nome da tarefa"
+					<Controller
+						control={control}
+						render={({ field: { onChange, onBlur, value, ref } }) => (
+							<Input
+								inputRef={ref}
+								onChangeText={onChange}
+								onBlur={onBlur}
+								value={value}
+								maxLength={20}
+								error={errors.title?.message}
+								label="Nome"
+								placeholder="Digite o nome da tarefa"
+							/>
+						)}
+						name="title"
 					/>
-					<TextAreaInput
-						label="Descrição"
-						placeholder="Insira uma descrição"
+					<Controller
+						control={control}
+						render={({ field: { onChange, onBlur, value, ref } }) => (
+							<TextAreaInput
+								inputRef={ref}
+								onChangeText={onChange}
+								onBlur={onBlur}
+								value={value}
+								label="Descrição"
+								placeholder="Insira uma descrição"
+							/>
+						)}
+						name="description"
 					/>
 				</InputsContainer>
 
 				<ButtonsContainer>
-					<Button type="primary">
-						<TextButton type="primary">Salvar</TextButton>
+					<Button
+						type="primary"
+						onPress={handleSubmit(onSubmitTask)}
+					>
+						<TextButton type="primary" >Salvar</TextButton>
 					</Button>
-					<Button type="cancel">
+					<Button type="cancel" onPress={() => navigation.goBack()}>
 						<TextButton type="cancel">Cancelar</TextButton>
 					</Button>
 				</ButtonsContainer>

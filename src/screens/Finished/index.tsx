@@ -1,14 +1,14 @@
 import ResourceCardsContainer from '../../components/ResourceCardsContainer';
 import TasksContainer from '../../components/TasksContainer';
 import TaskCard from '../../components/TaskCard.py';
-import { Task } from '../../interfaces/Task';
+import { TaskData } from '../../interfaces/Data';
 import { useEffect, useState } from 'react';
 import SearchBar from '../../components/SearchBar';
 import Logo from '../../assets/images/logo.svg';
 import { useNavigation } from '@react-navigation/native';
 import { ScreenContainerMain, Scrool } from '../../styles/global';
 
-const TASKS: Task[] = [
+const TASKS: TaskData[] = [
 	{
 		id: 1,
 		title: "Estudar React",
@@ -66,7 +66,7 @@ const Finished = () => {
 
 	const navigation = useNavigation();
 
-	const [tasks, setTasks] = useState<Task[]>(TASKS);
+	const [tasks, setTasks] = useState<TaskData[]>(TASKS);
 
 	useEffect(() => {
 

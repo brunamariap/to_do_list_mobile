@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Container, LabelText, TextInputContainer } from "./styles";
+import { ErrorText } from "../../styles/global";
 
 export interface InputProps {
 	label: string;
 	maxLength?: number;
 	placeholder: string;
 	isFocusedInput?: boolean;
+	error?: any;
 };
 
 const Input = ({
@@ -13,6 +15,7 @@ const Input = ({
 	maxLength,
 	placeholder,
 	isFocusedInput,
+	error,
 	...props
 }: InputProps) => {
 	const [isFocused, setIsFocused] = useState(false);
@@ -29,8 +32,10 @@ const Input = ({
 				onFocus={toogleFocusInput}
 				onBlur={toogleFocusInput}
 				isFocusedInput={isFocused}
+				error={error}
 				{...props}
 			/>
+			{error && <ErrorText>{error}</ErrorText>}
 		</Container>
 	);
 };

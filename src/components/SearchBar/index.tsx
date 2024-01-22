@@ -23,7 +23,7 @@ const SearchBar = ({
 				onBlur={toogleFocusInput}
 			// placeholderTextColor={theme.colors.gray}
 			/>
-			<SearchButton>
+			<SearchButton disabled={isFocused}>
 				<Fontisto name="search" size={24} color={theme.colors.primary} />
 			</SearchButton>
 		</Container>
