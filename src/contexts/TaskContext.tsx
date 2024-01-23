@@ -69,13 +69,6 @@ interface TaskContextValues {
 	finishedTasks: TaskData[] | undefined;
 	setFinishedTasks: React.Dispatch<React.SetStateAction<TaskData[] | undefined>>
 
-	totalTasks: number;
-	totalPendingTasks: number;
-	totalFinishedTasks: number;
-
-	loading: boolean;
-	refreshData: () => void;
-
 	getTask: (TaskId: string) => Promise<void>;
 	getAllTasks: () => Promise<void>;
 	getPendingTasks: () => Promise<void>;
@@ -89,12 +82,6 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 	const [tasks, setTasks] = useState<TaskData[] | undefined>();
 	const [pendingTasks, setPendingTasks] = useState<TaskData[] | undefined>();
 	const [finishedTasks, setFinishedTasks] = useState<TaskData[] | undefined>();
-
-	const [totalTasks, setTotalTasks] = useState(0);
-	const [totalPendingTasks, setTotalPendingTasks] = useState(0);
-	const [totalFinishedTasks, setTotalFinishedTasks] = useState(0);
-
-	const [loading, setLoading] = useState(false)
 
 	const getTask = useCallback(async (taskId: string | number) => {
 		setTask(tasks?.find((task) => {
@@ -111,7 +98,6 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 		setPendingTasks(tasks?.filter((task) => {
 			return task.status === "pending";
 		}))
-		console.log(pendingTasks, 'dhbbgygygs')
 	}, [tasks])
 
 	const getFinishedTasks = useCallback(async () => {
@@ -120,16 +106,6 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 			return task.status === "finished";
 		}))
 	}, [tasks])
-
-	const getTotalResources = useCallback(async () => {
-		// await Promise.all([getAllTasks(), getPendingTasks(), getFinishedTasks()]);
-
-		setTotalTasks(tasks?.length);
-		setTotalPendingTasks(pendingTasks?.length)
-		setTotalFinishedTasks(finishedTasks?.length)
-
-	}, [getAllTasks, tasks, pendingTasks, getPendingTasks, getFinishedTasks, finishedTasks])
-
 
 	useEffect(() => {
 		getAllTasks();
@@ -146,10 +122,6 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 		setPendingTasks,
 		finishedTasks,
 		setFinishedTasks,
-
-		totalTasks,
-		totalPendingTasks,
-		totalFinishedTasks,
 
 		getTask,
 		getAllTasks,

@@ -3,7 +3,7 @@ import { Container } from "./styles";
 
 interface ResourceCardProps {
 	title: string;
-	total: number;
+	total?: number;
 }
 
 const ResourceCard = ({

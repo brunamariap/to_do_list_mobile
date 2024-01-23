@@ -4,13 +4,20 @@ import { Container } from "./styles";
 
 const ResourceCardsContainer = () => {
 
-	const { totalTasks, totalPendingTasks, totalFinishedTasks } = useTask();
+	const {
+		getAllTasks,
+		getPendingTasks,
+		getFinishedTasks,
+		tasks,
+		pendingTasks, 
+		finishedTasks,
+	} = useTask();
 
 	return (
 		<Container>
-			<ResourceCard title='Cadastradas' total={totalTasks} />
-			<ResourceCard title='Pendentes' total={totalPendingTasks} />
-			<ResourceCard title='Concluídas' total={totalFinishedTasks} />
+			<ResourceCard title='Cadastradas' total={tasks?.length} />
+			<ResourceCard title='Pendentes' total={pendingTasks?.length} />
+			<ResourceCard title='Concluídas' total={finishedTasks?.length} />
 		</Container>
 	)
 }
