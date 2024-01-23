@@ -10,10 +10,14 @@ import { Ionicons } from '@expo/vector-icons';
 import theme from "../../styles/themes";
 import { Title } from "../../styles/global";
 import { useNavigation } from "@react-navigation/native";
+import { useTask } from "../../contexts/TaskContext";
+import { formatDate } from "../../utils/formatDate";
+import { useEffect } from "react";
 
 const TaskDetails = () => {
 
 	const { goBack } = useNavigation()
+	const { task } = useTask();
 
 	return (
 		<Container>
@@ -23,26 +27,13 @@ const TaskDetails = () => {
 					<Title>Voltar</Title>
 				</BackScreenContainer>
 				<Heading
-					title="Nome tarefa"
-					description="12 nov. 2023"
+					title={task?.title}
+					description={formatDate(task?.createdAt)}
 				/>
 
 				<DescriptionContainer>
 					<DescriptionText>
-						wndueufumfemmfoeof
-						efijefiee,
-						denifewndueufumfemmfoeofdjenfuf
-						efijefiee,
-						denifen
-						wndueufumfemmfoeof
-						efijefiee,
-						denifen
-						wndueufumfemmfoeof
-						efijefiee,
-						denifen
-						wndueufumfemmfoeof
-						efijefiee,
-						denifen
+						{task?.description}
 					</DescriptionText>
 				</DescriptionContainer>
 			</MainContainer>

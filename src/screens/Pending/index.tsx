@@ -9,60 +9,6 @@ import { useNavigation } from '@react-navigation/native';
 import { ScreenContainerMain, Scrool } from '../../styles/global';
 import { useTask } from '../../contexts/TaskContext';
 
-const TASKS: TaskData[] = [
-	{
-		id: 1,
-		title: "Estudar React",
-		description: "sdyyfb",
-		status: "finished",
-		createdAt: new Date(),
-		isChecked: true,
-	},
-	{
-		id: 2,
-		title: "Estudar Django",
-		description: "sdyyfbdbfdfd jdbyhbdybyfbe ndbfybeuwnme",
-		status: "pending",
-		createdAt: new Date(),
-		isChecked: false,
-	},
-	{
-		id: 3,
-		title: "Almoçar",
-		status: "pending",
-		createdAt: new Date(),
-		isChecked: false,
-	},
-	{
-		id: 4,
-		title: "Ler um livro",
-		status: "pending",
-		createdAt: new Date(),
-		isChecked: false,
-	},
-	{
-		id: 5,
-		title: "Ler um livro",
-		status: "pending",
-		createdAt: new Date(),
-		isChecked: false,
-	},
-	{
-		id: 6,
-		title: "Ler um livro",
-		status: "pending",
-		createdAt: new Date(),
-		isChecked: false,
-	},
-	{
-		id: 7,
-		title: "Ler um livro",
-		status: "pending",
-		createdAt: new Date(),
-		isChecked: false,
-	},
-]
-
 const Pending = () => {
 
 	const navigation = useNavigation();
@@ -71,7 +17,7 @@ const Pending = () => {
 
 	const {
 		pendingTasks,
-		setTasks,
+		getTask,
 		setPendingTasks,
 		getPendingTasks,
 	} = useTask();
@@ -92,6 +38,11 @@ const Pending = () => {
 			)
 		);
 		// getPendingTasks();
+	}
+
+	const handleDetailsTask = (taskId: string | number) => {
+		getTask(taskId);
+		navigation.navigate('TaskDetails')
 	}
 
 	return (
@@ -128,7 +79,7 @@ const Pending = () => {
 							status={status}
 							createdAt={createdAt}
 							isChecked={isChecked}
-							onPress={() => navigation.navigate('TaskDetails')}
+							onPress={() => handleDetailsTask(id)}
 							setStatus={() => handleCheckTask(id, "finished")}
 						/>
 					))}

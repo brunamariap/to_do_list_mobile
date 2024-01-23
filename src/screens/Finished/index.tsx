@@ -7,6 +7,7 @@ import SearchBar from '../../components/SearchBar';
 import Logo from '../../assets/images/logo.svg';
 import { useNavigation } from '@react-navigation/native';
 import { ScreenContainerMain, Scrool } from '../../styles/global';
+import { useTask } from '../../contexts/TaskContext';
 
 const TASKS: TaskData[] = [
 	{
@@ -66,11 +67,17 @@ const Finished = () => {
 
 	const navigation = useNavigation();
 
-	const [tasks, setTasks] = useState<TaskData[]>(TASKS);
+	const {
+		finishedTasks,
+		setTasks,
+		setFinishedTasks,
+		getFinishedTasks,
+	} = useTask();
 
 	useEffect(() => {
+		getFinishedTasks();
+	}, [])
 
-	}, [tasks])
 
 	const handleCheckTask = (taskId: number | string, newStatus: string) => {
 		setTasks((prevTasks) =>
@@ -103,7 +110,7 @@ const Finished = () => {
 				<ResourceCardsContainer />
 
 				<TasksContainer>
-					{tasks.map(({
+					{finishedTasks?.map(({
 						id, title, description, status, createdAt, isChecked
 					}) => (
 						<TaskCard

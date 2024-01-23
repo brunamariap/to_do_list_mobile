@@ -1,6 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { TaskData } from "../interfaces/Task";
-import constructWithOptions from "styled-components/dist/constructors/constructWithOptions";
 
 const TASKS: TaskData[] = [
 	{
@@ -67,6 +66,15 @@ interface TaskContextValues {
 	setTasks: React.Dispatch<React.SetStateAction<TaskData[] | undefined>>
 	pendingTasks: TaskData[] | undefined;
 	setPendingTasks: React.Dispatch<React.SetStateAction<TaskData[] | undefined>>
+	finishedTasks: TaskData[] | undefined;
+	setFinishedTasks: React.Dispatch<React.SetStateAction<TaskData[] | undefined>>
+
+	totalTasks: number;
+	totalPendingTasks: number;
+	totalFinishedTasks: number;
+
+	loading: boolean;
+	refreshData: () => void;
 
 	getTask: (TaskId: string) => Promise<void>;
 	getAllTasks: () => Promise<void>;
@@ -80,35 +88,54 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 	const [task, setTask] = useState<TaskData | undefined>();
 	const [tasks, setTasks] = useState<TaskData[] | undefined>();
 	const [pendingTasks, setPendingTasks] = useState<TaskData[] | undefined>();
+	const [finishedTasks, setFinishedTasks] = useState<TaskData[] | undefined>();
 
-	const getTask = useCallback(async (taskId: string) => {
+	const [totalTasks, setTotalTasks] = useState(0);
+	const [totalPendingTasks, setTotalPendingTasks] = useState(0);
+	const [totalFinishedTasks, setTotalFinishedTasks] = useState(0);
 
-	}, [])
+	const [loading, setLoading] = useState(false)
+
+	const getTask = useCallback(async (taskId: string | number) => {
+		setTask(tasks?.find((task) => {
+			return task.id == taskId;
+		}))
+	}, [tasks])
 
 	const getAllTasks = useCallback(async () => {
 		setTasks(TASKS);
 	}, [])
 
 	const getPendingTasks = useCallback(async () => {
-		getAllTasks();
+		await getAllTasks();
 		setPendingTasks(tasks?.filter((task) => {
 			return task.status === "pending";
 		}))
 		console.log(pendingTasks, 'dhbbgygygs')
-	}, [getAllTasks, tasks, setPendingTasks])
+	}, [tasks])
 
 	const getFinishedTasks = useCallback(async () => {
-		console.log("teste")
-	}, [])
+		await getAllTasks();
+		setFinishedTasks(tasks?.filter((task) => {
+			return task.status === "finished";
+		}))
+	}, [tasks])
+
+	const getTotalResources = useCallback(async () => {
+		// await Promise.all([getAllTasks(), getPendingTasks(), getFinishedTasks()]);
+
+		setTotalTasks(tasks?.length);
+		setTotalPendingTasks(pendingTasks?.length)
+		setTotalFinishedTasks(finishedTasks?.length)
+
+	}, [getAllTasks, tasks, pendingTasks, getPendingTasks, getFinishedTasks, finishedTasks])
+
 
 	useEffect(() => {
 		getAllTasks();
 		getPendingTasks();
-	}, [tasks])
-
-	// useEffect(() => {
-
-	// }, [tasks])
+		getFinishedTasks();
+	}, [getAllTasks, getPendingTasks, getFinishedTasks])
 
 	const contextValues = {
 		task,
@@ -117,6 +144,12 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 		setTasks,
 		pendingTasks,
 		setPendingTasks,
+		finishedTasks,
+		setFinishedTasks,
+
+		totalTasks,
+		totalPendingTasks,
+		totalFinishedTasks,
 
 		getTask,
 		getAllTasks,
