@@ -68,24 +68,30 @@ interface TaskContextValues {
 	setPendingTasks: React.Dispatch<React.SetStateAction<TaskData[] | undefined>>
 	finishedTasks: TaskData[] | undefined;
 	setFinishedTasks: React.Dispatch<React.SetStateAction<TaskData[] | undefined>>
-
+	
 	getTask: (TaskId: string) => Promise<void>;
 	getAllTasks: () => Promise<void>;
 	getPendingTasks: () => Promise<void>;
 	getFinishedTasks: () => Promise<void>;
+	
+	isLoadingPendingTasks: boolean;
+	setIsLoadingPendingTasks: React.Dispatch<React.SetStateAction<boolean>>
 
-	addTask: (task: TaskData) => void;
+	createTask: (task: TaskData) => Promise<void>;
+	removeTask: (task: string | number) => Promise<void>;
 }
 
 const TaskContext = createContext({} as TaskContextValues);
 
 const TaskProvider = ({ children }: TaskProviderProps) => {
 	const [task, setTask] = useState<TaskData | undefined>();
-	const [tasks, setTasks] = useState<TaskData[] | undefined>();
+	const [tasks, setTasks] = useState<TaskData[] | undefined>(TASKS);
 	const [pendingTasks, setPendingTasks] = useState<TaskData[] | undefined>();
 	const [finishedTasks, setFinishedTasks] = useState<TaskData[] | undefined>();
 
 	const [tasksLoaded, setTasksLoaded] = useState(false);
+
+	const [isLoadingPendingTasks, setIsLoadingPendingTasks] = useState(true);
 
 	const getTask = useCallback(async (taskId: string | number) => {
 		setTask(tasks?.find((task) => {
@@ -94,10 +100,10 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 	}, [tasks])
 
 	const getAllTasks = useCallback(async () => {
-		if (!tasksLoaded) {
-			setTasks(TASKS);
-		}
-		setTasksLoaded(true);
+		// if (!tasksLoaded) {
+		// 	setTasks(TASKS);
+		// }
+		// setTasksLoaded(true);
 	}, [])
 
 	const getPendingTasks = useCallback(async () => {
@@ -116,11 +122,18 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 		}))
 	}, [tasks])
 
-	const addTask = useCallback(async (newTask: TaskData) => {
+	const createTask = useCallback(async (newTask: TaskData) => {
 		setTasks((prevTasks) => (prevTasks ? [...prevTasks, newTask] : [newTask]));
 		// getAllTasks();
 		await getPendingTasks();
-		console.log(pendingTasks)
+		await getFinishedTasks();
+	}, [getPendingTasks, getFinishedTasks]);
+
+	const removeTask = useCallback(async (taskId: string | number) => {
+		setTasks((prevTasks) =>
+			prevTasks?.filter((task) => task.id != taskId)
+		);
+		await getPendingTasks();
 		await getFinishedTasks();
 	}, [getPendingTasks, getFinishedTasks]);
 
@@ -147,7 +160,11 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 		getPendingTasks,
 		getFinishedTasks,
 
-		addTask,
+		isLoadingPendingTasks,
+		setIsLoadingPendingTasks,
+
+		createTask,
+		removeTask,
 	}
 
 	return (

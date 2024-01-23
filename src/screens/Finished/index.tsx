@@ -15,10 +15,10 @@ const Finished = () => {
 	const [searchQuery, setSearchQuery] = useState('');
 
 	const {
+		tasks,
 		finishedTasks,
 		getTask,
 		setTasks,
-		setFinishedTasks,
 		getFinishedTasks,
 	} = useTask();
 

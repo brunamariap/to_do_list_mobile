@@ -16,13 +16,11 @@ const Container = styled.SafeAreaView`
 `;
 
 const MainContainer = styled.SafeAreaView`
-	bottom: 112px;
+	/* bottom: 112px; */
 	width: 90%;
 	align-items: flex-start;
 	gap: 16px;
 `;
-
-// mudar o aling self do primeiro e do ultimo componente
 
 const InputsContainer = styled.SafeAreaView`
 	width: 100%;
@@ -30,7 +28,8 @@ const InputsContainer = styled.SafeAreaView`
 `;
 
 const ButtonsContainer = styled.SafeAreaView`
-	top: 224px;
+	/* margin-top: 96px; */
+	margin-top: 40%;
 	width: 100%;
 	gap: 16px;
 `;

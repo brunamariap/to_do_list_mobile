@@ -12,7 +12,6 @@ import { Title } from "../../styles/global";
 import { useNavigation } from "@react-navigation/native";
 import { useTask } from "../../contexts/TaskContext";
 import { formatDate } from "../../utils/formatDate";
-import { useEffect } from "react";
 
 const TaskDetails = () => {
 

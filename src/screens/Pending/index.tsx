@@ -7,6 +7,7 @@ import Logo from '../../assets/images/logo.svg';
 import { useNavigation } from '@react-navigation/native';
 import { ScreenContainerMain, Scrool } from '../../styles/global';
 import { useTask } from '../../contexts/TaskContext';
+import { TaskData } from '../../interfaces/Task';
 
 const Pending = () => {
 
@@ -18,7 +19,7 @@ const Pending = () => {
 		tasks,
 		pendingTasks,
 		getTask,
-		setPendingTasks,
+		setTasks,
 		getPendingTasks,
 	} = useTask();
 
@@ -27,8 +28,9 @@ const Pending = () => {
 	}, [tasks])
 
 	const handleCheckTask = (taskId: number | string, newStatus: string) => {
-		setPendingTasks((prevTasks) =>
-			prevTasks.map((task) =>
+		// @ts-expect-error
+		setTasks((prevTasks) =>
+			prevTasks?.map((task) =>
 				task.id === taskId ?
 					{
 						...task,
@@ -37,19 +39,20 @@ const Pending = () => {
 					} : task
 			)
 		);
-		// getPendingTasks();
 	}
 
 	const handleDetailsTask = (taskId: string | number) => {
+		// @ts-expect-error
 		getTask(taskId);
+		// @ts-expect-error
 		navigation.navigate('TaskDetails')
 	};
 
 	const filteredTasks = pendingTasks?.filter(
-    ({ title, description }) =>
-      title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      description?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+		({ title, description }) =>
+			title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			description?.toLowerCase().includes(searchQuery.toLowerCase())
+	);
 
 	return (
 		<ScreenContainerMain>
@@ -66,7 +69,7 @@ const Pending = () => {
 				<SearchBar
 					placeholder='Pesquisar tarefa'
 					onChangeText={(text) => setSearchQuery(text)}
-          value={searchQuery}
+					value={searchQuery}
 				/>
 				<ResourceCardsContainer />
 

@@ -30,7 +30,7 @@ const AddTask = () => {
 
 	const [isLoading, setIsLoading] = useState(false);
 
-	const { addTask } = useTask();
+	const { createTask } = useTask();
 
 	const schema = yup.object().shape({
 		title: yup
@@ -51,7 +51,6 @@ const AddTask = () => {
 	});
 
 	const onSubmitTask = (data: CreateTaskData) => {
-		console.log("dados", data)
 		const newTask: TaskData = {
 			id: 8,
 			title: data.title,
@@ -60,7 +59,7 @@ const AddTask = () => {
 			createdAt: new Date(),
 			isChecked: false,
 		}
-		addTask(newTask);
+		createTask(newTask);
 		navigation.goBack();
 		reset({})
 	};
@@ -77,6 +76,7 @@ const AddTask = () => {
 						control={control}
 						render={({ field: { onChange, onBlur, value, ref } }) => (
 							<Input
+								// @ts-expect-error
 								inputRef={ref}
 								onChangeText={onChange}
 								onBlur={onBlur}
@@ -93,6 +93,7 @@ const AddTask = () => {
 						control={control}
 						render={({ field: { onChange, onBlur, value, ref } }) => (
 							<TextAreaInput
+								// @ts-expect-error
 								inputRef={ref}
 								onChangeText={onChange}
 								onBlur={onBlur}

@@ -16,6 +16,7 @@ import {
 } from "./styles";
 import Button from "../Button";
 import { Check, Trash2 } from "react-native-feather";
+import { useTask } from "../../contexts/TaskContext";
 
 interface TaskCardProps extends TouchableOpacityProps {
 	taskId: string | number;
@@ -40,17 +41,35 @@ const TaskCard = ({
 
 	const [showDeleteTaskModal, setShowDeleteTaskModal] = useState(false);
 
+	const [taskToRemove, setTaskToRemove] = useState<string | number>();
+
+	const [isDeletingTask, setIsDeletingTask] = useState(false);
+
+	const { removeTask } = useTask();
+
 	const toggleDeleteTaskModal = () =>
 		setShowDeleteTaskModal((visible) => !visible)
+
+	const handleDeleteTask = (taskId: string | number) => {
+		setTaskToRemove(taskId);
+		toggleDeleteTaskModal();
+	}
+
+	const onDeleteTask = () => {
+		setIsDeletingTask(true);
+		removeTask(taskToRemove)
+		toggleDeleteTaskModal();
+		setIsDeletingTask(false);
+	}
 
 	const TaskContent = () => {
 		return (
 			<TaskContentContainer>
 				<CheckBox onPress={() => setStatus()} status={status}>
-          {isChecked && (
-            <Check color={theme.colors.green} width={20} height={20} />
-          )}
-        </CheckBox>
+					{isChecked && (
+						<Check color={theme.colors.green} width={20} height={20} />
+					)}
+				</CheckBox>
 				<View>
 					<Title>{title}</Title>
 					<Info>{formatDate(createdAt)}</Info>
@@ -68,7 +87,7 @@ const TaskCard = ({
 		<Container status={status} {...props}>
 			<TaskContent />
 			<TouchableOpacity style={{ marginRight: 16 }}
-				onPress={() => toggleDeleteTaskModal()}
+				onPress={() => handleDeleteTask(taskId)}
 			>
 				<Trash2
 					width={28}
@@ -87,12 +106,14 @@ const TaskCard = ({
 								<Button
 									width="40%"
 									type="primary"
-									onPress={() => toggleDeleteTaskModal()}
+									loading={isDeletingTask}
+									onPress={() => onDeleteTask()}
 								>
 									<TextButton type="primary">Confirmar</TextButton>
 								</Button>
 								<Button
 									width="40%"
+									loading={isDeletingTask}
 									onPress={() => toggleDeleteTaskModal()}
 								>
 									<TextButton type="cancel">Cancelar</TextButton>
