@@ -16,12 +16,21 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Controller, useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
+import { TaskData } from "../../interfaces/Task";
+import { useTask } from "../../contexts/TaskContext";
+
+interface CreateTaskData {
+	title: string;
+	description?: string;
+}
 
 const AddTask = () => {
 
 	const navigation = useNavigation();
 
 	const [isLoading, setIsLoading] = useState(false);
+
+	const { addTask } = useTask();
 
 	const schema = yup.object().shape({
 		title: yup
@@ -34,14 +43,26 @@ const AddTask = () => {
 
 	const {
 		control,
+		reset,
 		handleSubmit,
 		formState: { isSubmitting, errors },
 	} = useForm({
 		resolver: yupResolver(schema),
 	});
 
-	const onSubmitTask = (data) => {
+	const onSubmitTask = (data: CreateTaskData) => {
 		console.log("dados", data)
+		const newTask: TaskData = {
+			id: 8,
+			title: data.title,
+			description: data.description,
+			status: "pending",
+			createdAt: new Date(),
+			isChecked: false,
+		}
+		addTask(newTask);
+		navigation.goBack();
+		reset({})
 	};
 
 	return (
@@ -91,7 +112,10 @@ const AddTask = () => {
 					>
 						<TextButton type="primary" >Salvar</TextButton>
 					</Button>
-					<Button type="cancel" onPress={() => navigation.goBack()}>
+					<Button type="cancel" onPress={() => {
+						navigation.goBack()
+						reset({})
+					}}>
 						<TextButton type="cancel">Cancelar</TextButton>
 					</Button>
 				</ButtonsContainer>

@@ -73,6 +73,8 @@ interface TaskContextValues {
 	getAllTasks: () => Promise<void>;
 	getPendingTasks: () => Promise<void>;
 	getFinishedTasks: () => Promise<void>;
+
+	addTask: (task: TaskData) => void;
 }
 
 const TaskContext = createContext({} as TaskContextValues);
@@ -83,6 +85,8 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 	const [pendingTasks, setPendingTasks] = useState<TaskData[] | undefined>();
 	const [finishedTasks, setFinishedTasks] = useState<TaskData[] | undefined>();
 
+	const [tasksLoaded, setTasksLoaded] = useState(false);
+
 	const getTask = useCallback(async (taskId: string | number) => {
 		setTask(tasks?.find((task) => {
 			return task.id == taskId;
@@ -90,11 +94,16 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 	}, [tasks])
 
 	const getAllTasks = useCallback(async () => {
-		setTasks(TASKS);
+		if (!tasksLoaded) {
+			setTasks(TASKS);
+		}
+		setTasksLoaded(true);
 	}, [])
 
 	const getPendingTasks = useCallback(async () => {
-		await getAllTasks();
+		if (tasksLoaded) {
+			await getAllTasks();
+		}
 		setPendingTasks(tasks?.filter((task) => {
 			return task.status === "pending";
 		}))
@@ -107,11 +116,21 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 		}))
 	}, [tasks])
 
+	const addTask = useCallback(async (newTask: TaskData) => {
+		setTasks((prevTasks) => (prevTasks ? [...prevTasks, newTask] : [newTask]));
+		// getAllTasks();
+		await getPendingTasks();
+		console.log(pendingTasks)
+		await getFinishedTasks();
+	}, [getPendingTasks, getFinishedTasks]);
+
 	useEffect(() => {
-		getAllTasks();
+		if (!tasksLoaded) {
+			getAllTasks();
+		}
 		getPendingTasks();
 		getFinishedTasks();
-	}, [getAllTasks, getPendingTasks, getFinishedTasks])
+	}, [getAllTasks, getPendingTasks, getFinishedTasks, tasksLoaded])
 
 	const contextValues = {
 		task,
@@ -127,6 +146,8 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 		getAllTasks,
 		getPendingTasks,
 		getFinishedTasks,
+
+		addTask,
 	}
 
 	return (
