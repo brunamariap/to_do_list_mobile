@@ -1,14 +1,15 @@
 import ResourceCardsContainer from '../../components/ResourceCardsContainer';
 import TasksContainer from '../../components/TasksContainer';
 import TaskCard from '../../components/TaskCard.py';
-import { Task } from '../../interfaces/Task';
+import { TaskData } from '../../interfaces/Data';
 import { useEffect, useState } from 'react';
 import SearchBar from '../../components/SearchBar';
 import Logo from '../../assets/images/logo.svg';
 import { useNavigation } from '@react-navigation/native';
 import { ScreenContainerMain, Scrool } from '../../styles/global';
+import { useTask } from '../../contexts/TaskContext';
 
-const TASKS: Task[] = [
+const TASKS: TaskData[] = [
 	{
 		id: 1,
 		title: "Estudar React",
@@ -66,11 +67,17 @@ const Finished = () => {
 
 	const navigation = useNavigation();
 
-	const [tasks, setTasks] = useState<Task[]>(TASKS);
+	const {
+		finishedTasks,
+		setTasks,
+		setFinishedTasks,
+		getFinishedTasks,
+	} = useTask();
 
 	useEffect(() => {
+		getFinishedTasks();
+	}, [])
 
-	}, [tasks])
 
 	const handleCheckTask = (taskId: number | string, newStatus: string) => {
 		setTasks((prevTasks) =>
@@ -103,7 +110,7 @@ const Finished = () => {
 				<ResourceCardsContainer />
 
 				<TasksContainer>
-					{tasks.map(({
+					{finishedTasks?.map(({
 						id, title, description, status, createdAt, isChecked
 					}) => (
 						<TaskCard

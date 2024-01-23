@@ -56,6 +56,12 @@ const TabLabel = styled.Text<StyledTabLabel>`
 	margin-bottom: 8px;
 `;
 
+const ErrorText = styled.Text`
+	color: ${theme.colors.red};
+	font-family: ${theme.fonts.light};
+	font-size: ${theme.sizes.xs}px;
+`;
+
 export {
 	ScreenContainerMain,
 	Scrool,
@@ -63,5 +69,6 @@ export {
 	Description,
 	Info, 
 	ContainerCenter,
-	TabLabel
+	TabLabel,
+	ErrorText,
 };

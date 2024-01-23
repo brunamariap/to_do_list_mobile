@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { Container, LabelText, TextInputContainer } from "./styles";
+import { ErrorText } from "../../styles/global";
 
 export interface TextAreaProps {
 	label: string;
 	placeholder: string;
 	isFocusedInput?: boolean;
+	error?: any;
 };
 
 const TextAreaInput = ({
 	label,
 	placeholder,
 	isFocusedInput,
+	error,
 	...props
 }: TextAreaProps) => {
 	const [isFocused, setIsFocused] = useState(false);
@@ -30,6 +33,7 @@ const TextAreaInput = ({
 				numberOfLines={3}
 				{...props}
 			/>
+			{error && <ErrorText>{error}</ErrorText>}
 		</Container>
 	);
 };

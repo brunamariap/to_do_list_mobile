@@ -2,8 +2,9 @@ import styled from "styled-components/native";
 import theme from '../../styles/themes';
 import { TextInputProps } from "react-native";
 
-interface StyledTextInputProps extends TextInputProps{
+interface StyledTextInputProps extends TextInputProps {
 	isFocusedInput: boolean;
+	error?: string;
 };
 
 const Container = styled.SafeAreaView`
@@ -22,9 +23,11 @@ const TextInputContainer = styled.TextInput<StyledTextInputProps>`
 	background-color: ${theme.colors.white};
 	flex-direction: row;
 	border: ${(props) => (
-		props.isFocusedInput
-			? `1.5px solid ${theme.colors.dark}`
-			: `1.5px solid ${theme.colors.gray}`
+		props.error
+			? `1.5px solid ${theme.colors.red}`
+			: props.isFocusedInput
+				? `1.5px solid ${theme.colors.dark}`
+				: `1.5px solid ${theme.colors.gray}`
 	)};
 	align-items: center;
 	justify-content: space-between;
