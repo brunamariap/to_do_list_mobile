@@ -2,13 +2,15 @@ import { useState } from "react";
 import { Container, SearchButton, TextInputContainer } from "./styles";
 import { Fontisto } from '@expo/vector-icons';
 import theme from "../../styles/themes";
+import { TextInputProps } from "react-native";
 
-interface SearchBarProps {
+interface SearchBarProps extends TextInputProps {
 	placeholder: string;
 }
 
 const SearchBar = ({
-	placeholder
+	placeholder,
+	...props
 }: SearchBarProps) => {
 	const [isFocused, setIsFocused] = useState(false);
 
@@ -21,6 +23,7 @@ const SearchBar = ({
 				placeholder={placeholder}
 				onFocus={toogleFocusInput}
 				onBlur={toogleFocusInput}
+				{...props}
 			// placeholderTextColor={theme.colors.gray}
 			/>
 			<SearchButton disabled={isFocused}>

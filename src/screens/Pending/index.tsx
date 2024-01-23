@@ -1,7 +1,6 @@
 import ResourceCardsContainer from '../../components/ResourceCardsContainer';
 import TasksContainer from '../../components/TasksContainer';
 import TaskCard from '../../components/TaskCard.py';
-import { TaskData } from '../../interfaces/Task';
 import { useEffect, useState } from 'react';
 import SearchBar from '../../components/SearchBar';
 import Logo from '../../assets/images/logo.svg';
@@ -13,9 +12,10 @@ const Pending = () => {
 
 	const navigation = useNavigation();
 
-	// const [tasks, setTasks] = useState<TaskData[]>(TASKS);
+	const [searchQuery, setSearchQuery] = useState('');
 
 	const {
+		tasks,
 		pendingTasks,
 		getTask,
 		setPendingTasks,
@@ -24,7 +24,7 @@ const Pending = () => {
 
 	useEffect(() => {
 		getPendingTasks();
-	}, [])
+	}, [tasks])
 
 	const handleCheckTask = (taskId: number | string, newStatus: string) => {
 		setPendingTasks((prevTasks) =>
@@ -43,7 +43,13 @@ const Pending = () => {
 	const handleDetailsTask = (taskId: string | number) => {
 		getTask(taskId);
 		navigation.navigate('TaskDetails')
-	}
+	};
+
+	const filteredTasks = pendingTasks?.filter(
+    ({ title, description }) =>
+      title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      description?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
 	return (
 		<ScreenContainerMain>
@@ -59,11 +65,13 @@ const Pending = () => {
 
 				<SearchBar
 					placeholder='Pesquisar tarefa'
+					onChangeText={(text) => setSearchQuery(text)}
+          value={searchQuery}
 				/>
 				<ResourceCardsContainer />
 
 				<TasksContainer>
-					{pendingTasks?.map(({
+					{filteredTasks?.map(({
 						id,
 						title,
 						description,
