@@ -10,6 +10,10 @@ interface StyledButtonTextProps {
 	type?: "cancel" | "primary";
 };
 
+interface StyledTextProps {
+	status: "pending" | "finished"
+};
+
 const Container = styled.TouchableOpacity<StyledTaskCardProps>`
 	width: 90%;
 	border-radius: 8px;
@@ -80,6 +84,15 @@ const TextButton = styled.Text<StyledButtonTextProps>`
 	)};
 `;
 
+const TextTitle = styled.Text<StyledTextProps>`
+	font-family: ${theme.fonts.semibold};
+	font-size: ${theme.sizes.md}px;
+	color: ${theme.colors.black};
+	text-decoration: ${(props) => (
+		props.status === "finished" ? 'line-through' : 'none'
+	)};
+`;
+
 export {
 	Container,
 	TaskContentContainer,
@@ -88,4 +101,5 @@ export {
 	CheckBox,
 	ButtonsContainer,
 	TextButton,
+	TextTitle,
 };

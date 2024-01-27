@@ -12,7 +12,8 @@ import {
 	ButtonsContainer,
 	TextButton,
 	ModalContainer,
-	ModalTextDescription
+	ModalTextDescription,
+	TextTitle
 } from "./styles";
 import Button from "../Button";
 import { Check, Trash2 } from "react-native-feather";
@@ -71,7 +72,7 @@ const TaskCard = ({
 					)}
 				</CheckBox>
 				<View>
-					<Title>{title}</Title>
+					<TextTitle status={status}>{title}</TextTitle>
 					<Info>{formatDate(createdAt)}</Info>
 					{description &&
 						<Description>

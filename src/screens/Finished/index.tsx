@@ -20,24 +20,12 @@ const Finished = () => {
 		getTask,
 		setTasks,
 		getFinishedTasks,
+		handleCheckTask,
 	} = useTask();
 
 	useEffect(() => {
 		getFinishedTasks();
 	}, [])
-
-	const handleCheckTask = (taskId: number | string, newStatus: string) => {
-		setTasks((prevTasks) =>
-			prevTasks.map((task) =>
-				task.id === taskId ?
-					{
-						...task,
-						status: newStatus,
-						isChecked: newStatus === "finished"
-					} : task
-			)
-		);
-	}
 
 	const handleDetailsTask = (taskId: string | number) => {
 		getTask(taskId);
@@ -45,10 +33,10 @@ const Finished = () => {
 	};
 
 	const filteredTasks = finishedTasks?.filter(
-    ({ title, description }) =>
-      title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      description?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+		({ title, description }) =>
+			title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			description?.toLowerCase().includes(searchQuery.toLowerCase())
+	);
 
 	return (
 		<ScreenContainerMain>
@@ -65,24 +53,22 @@ const Finished = () => {
 				<SearchBar
 					placeholder='Pesquisar tarefa'
 					onChangeText={(text) => setSearchQuery(text)}
-          value={searchQuery}
+					value={searchQuery}
 				/>
 				<ResourceCardsContainer />
 
 				<TasksContainer>
-					{filteredTasks?.map(({
-						id, title, description, status, createdAt, isChecked
-					}) => (
+					{filteredTasks?.map((task, index) => (
 						<TaskCard
-							key={id}
-							taskId={id}
-							title={title}
-							description={description}
-							status={status}
-							createdAt={createdAt}
-							isChecked={isChecked}
-							onPress={() => handleDetailsTask(id)}
-							setStatus={() => handleCheckTask(id, "pending")}
+							key={index}
+							taskId={task.id}
+							title={task.title}
+							description={task.description}
+							status={task.status}
+							createdAt={task.createdAt}
+							isChecked={task.isChecked}
+							onPress={() => handleDetailsTask(task.id)}
+							setStatus={() => handleCheckTask(task.id, "pending")}
 						/>
 					))}
 				</TasksContainer>

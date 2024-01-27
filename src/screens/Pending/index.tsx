@@ -19,27 +19,13 @@ const Pending = () => {
 		tasks,
 		pendingTasks,
 		getTask,
-		setTasks,
 		getPendingTasks,
+		handleCheckTask,
 	} = useTask();
 
 	useEffect(() => {
 		getPendingTasks();
 	}, [tasks])
-
-	const handleCheckTask = (taskId: number | string, newStatus: string) => {
-		// @ts-expect-error
-		setTasks((prevTasks) =>
-			prevTasks?.map((task) =>
-				task.id === taskId ?
-					{
-						...task,
-						status: newStatus,
-						isChecked: newStatus === "finished"
-					} : task
-			)
-		);
-	}
 
 	const handleDetailsTask = (taskId: string | number) => {
 		// @ts-expect-error
@@ -74,24 +60,17 @@ const Pending = () => {
 				<ResourceCardsContainer />
 
 				<TasksContainer>
-					{filteredTasks?.map(({
-						id,
-						title,
-						description,
-						status,
-						createdAt,
-						isChecked
-					}) => (
+					{filteredTasks?.map((task, index) => (
 						<TaskCard
-							key={id}
-							taskId={id}
-							title={title}
-							description={description}
-							status={status}
-							createdAt={createdAt}
-							isChecked={isChecked}
-							onPress={() => handleDetailsTask(id)}
-							setStatus={() => handleCheckTask(id, "finished")}
+							key={index}
+							taskId={task.id}
+							title={task.title}
+							description={task.description}
+							status={task.status}
+							createdAt={task.createdAt}
+							isChecked={task.isChecked}
+							onPress={() => handleDetailsTask(task.id)}
+							setStatus={() => handleCheckTask(task.id, "finished")}
 						/>
 					))}
 				</TasksContainer>

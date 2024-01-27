@@ -68,17 +68,20 @@ interface TaskContextValues {
 	setPendingTasks: React.Dispatch<React.SetStateAction<TaskData[] | undefined>>
 	finishedTasks: TaskData[] | undefined;
 	setFinishedTasks: React.Dispatch<React.SetStateAction<TaskData[] | undefined>>
-	
+
 	getTask: (TaskId: string) => Promise<void>;
 	getAllTasks: () => Promise<void>;
 	getPendingTasks: () => Promise<void>;
 	getFinishedTasks: () => Promise<void>;
-	
+
 	isLoadingPendingTasks: boolean;
 	setIsLoadingPendingTasks: React.Dispatch<React.SetStateAction<boolean>>
+	isLoadingCreateTask: boolean;
+	setIsLoadingCreateTask: React.Dispatch<React.SetStateAction<boolean>>
 
 	createTask: (task: TaskData) => Promise<void>;
 	removeTask: (task: string | number) => Promise<void>;
+	handleCheckTask: (taskID: string | number, newStatus: string) => void;
 }
 
 const TaskContext = createContext({} as TaskContextValues);
@@ -92,6 +95,7 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 	const [tasksLoaded, setTasksLoaded] = useState(false);
 
 	const [isLoadingPendingTasks, setIsLoadingPendingTasks] = useState(true);
+	const [isLoadingCreateTask, setIsLoadingCreateTask] = useState(false);
 
 	const getTask = useCallback(async (taskId: string | number) => {
 		setTask(tasks?.find((task) => {
@@ -100,10 +104,7 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 	}, [tasks])
 
 	const getAllTasks = useCallback(async () => {
-		// if (!tasksLoaded) {
-		// 	setTasks(TASKS);
-		// }
-		// setTasksLoaded(true);
+
 	}, [])
 
 	const getPendingTasks = useCallback(async () => {
@@ -123,10 +124,12 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 	}, [tasks])
 
 	const createTask = useCallback(async (newTask: TaskData) => {
+		setIsLoadingCreateTask(true);
 		setTasks((prevTasks) => (prevTasks ? [...prevTasks, newTask] : [newTask]));
-		// getAllTasks();
+
 		await getPendingTasks();
 		await getFinishedTasks();
+		setIsLoadingCreateTask(false);
 	}, [getPendingTasks, getFinishedTasks]);
 
 	const removeTask = useCallback(async (taskId: string | number) => {
@@ -136,6 +139,20 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 		await getPendingTasks();
 		await getFinishedTasks();
 	}, [getPendingTasks, getFinishedTasks]);
+
+	const handleCheckTask = (taskId: number | string, newStatus: string) => {
+		// @ts-expect-error
+		setTasks((prevTasks) =>
+			prevTasks?.map((task) =>
+				task.id === taskId ?
+					{
+						...task,
+						status: newStatus,
+						isChecked: newStatus === "finished"
+					} : task
+			)
+		);
+	}
 
 	useEffect(() => {
 		if (!tasksLoaded) {
@@ -162,9 +179,12 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 
 		isLoadingPendingTasks,
 		setIsLoadingPendingTasks,
+		isLoadingCreateTask,
+		setIsLoadingCreateTask,
 
 		createTask,
 		removeTask,
+		handleCheckTask,
 	}
 
 	return (
