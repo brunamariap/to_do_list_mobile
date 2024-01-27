@@ -1,5 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { TaskData } from "../interfaces/Task";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import uuid from "react-native-uuid"
 
 const TASKS: TaskData[] = [
 	{
@@ -86,13 +88,13 @@ interface TaskContextValues {
 
 const TaskContext = createContext({} as TaskContextValues);
 
+const tasksKey = "@to-do-list:tasks"
+
 const TaskProvider = ({ children }: TaskProviderProps) => {
 	const [task, setTask] = useState<TaskData | undefined>();
 	const [tasks, setTasks] = useState<TaskData[] | undefined>(TASKS);
 	const [pendingTasks, setPendingTasks] = useState<TaskData[] | undefined>();
 	const [finishedTasks, setFinishedTasks] = useState<TaskData[] | undefined>();
-
-	const [tasksLoaded, setTasksLoaded] = useState(false);
 
 	const [isLoadingPendingTasks, setIsLoadingPendingTasks] = useState(true);
 	const [isLoadingCreateTask, setIsLoadingCreateTask] = useState(false);
@@ -108,9 +110,7 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 	}, [])
 
 	const getPendingTasks = useCallback(async () => {
-		if (tasksLoaded) {
-			await getAllTasks();
-		}
+		await getAllTasks();
 		setPendingTasks(tasks?.filter((task) => {
 			return task.status === "pending";
 		}))
@@ -155,12 +155,9 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 	}
 
 	useEffect(() => {
-		if (!tasksLoaded) {
-			getAllTasks();
-		}
 		getPendingTasks();
 		getFinishedTasks();
-	}, [getAllTasks, getPendingTasks, getFinishedTasks, tasksLoaded])
+	}, [getAllTasks, getPendingTasks, getFinishedTasks])
 
 	const contextValues = {
 		task,
