@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from "rea
 import { TaskData } from "../interfaces/Task";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import uuid from "react-native-uuid"
+import { Alert } from "react-native";
 
 const TASKS: TaskData[] = [
 	{
@@ -92,9 +93,11 @@ const tasksKey = "@to-do-list:tasks"
 
 const TaskProvider = ({ children }: TaskProviderProps) => {
 	const [task, setTask] = useState<TaskData | undefined>();
-	const [tasks, setTasks] = useState<TaskData[] | undefined>(TASKS);
-	const [pendingTasks, setPendingTasks] = useState<TaskData[] | undefined>();
-	const [finishedTasks, setFinishedTasks] = useState<TaskData[] | undefined>();
+	const [tasks, setTasks] = useState<TaskData[] | undefined>([]);
+	const [pendingTasks, setPendingTasks] = useState<TaskData[] | undefined>([]);
+	const [finishedTasks, setFinishedTasks] = useState<TaskData[] | undefined>([]);
+
+	const [count, setCount] = useState(0);
 
 	const [isLoadingPendingTasks, setIsLoadingPendingTasks] = useState(true);
 	const [isLoadingCreateTask, setIsLoadingCreateTask] = useState(false);
@@ -105,8 +108,24 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 		}))
 	}, [tasks])
 
-	const getAllTasks = useCallback(async () => {
+	async function storeTasks(newTasks: TaskData[]) {
+    try {
+      await AsyncStorage.setItem("@tasks", JSON.stringify(newTasks));
+    } catch (e) {
+      Alert.alert("Opa!", "Não foi possível salvar as tarefas");
+    }
+  }
 
+	const getAllTasks = useCallback(async () => {
+		try {
+      const data = await AsyncStorage.getItem(tasksKey);
+      if (data) {
+        setTasks(JSON.parse(data));
+      }
+			console.log(data)
+    } catch (e) {
+      Alert.alert("Opa!", "Não foi possível carregar as tarefas");
+    }
 	}, [])
 
 	const getPendingTasks = useCallback(async () => {
@@ -123,12 +142,21 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 		}))
 	}, [tasks])
 
-	const createTask = useCallback(async (newTask: TaskData) => {
+	const createTask = useCallback(async (title: string, description?: string) => {
 		setIsLoadingCreateTask(true);
+		const newTask: TaskData = {
+			id: count + 1,
+			title: title,
+			description: description,
+			status: "pending",
+			// createdAt: new Date(),
+			isChecked: false,
+		}
+		setCount(count + 1)
 		setTasks((prevTasks) => (prevTasks ? [...prevTasks, newTask] : [newTask]));
 
-		await getPendingTasks();
-		await getFinishedTasks();
+		// await getPendingTasks();
+		// await getFinishedTasks();
 		setIsLoadingCreateTask(false);
 	}, [getPendingTasks, getFinishedTasks]);
 
@@ -155,9 +183,15 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 	}
 
 	useEffect(() => {
-		getPendingTasks();
-		getFinishedTasks();
-	}, [getAllTasks, getPendingTasks, getFinishedTasks])
+		getAllTasks();
+	})
+
+	useEffect(() => {
+		// AsyncStorage.clear()
+		// getPendingTasks();
+		// getFinishedTasks();
+		storeTasks(tasks)
+	}, [tasks])
 
 	const contextValues = {
 		task,
