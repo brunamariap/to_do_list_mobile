@@ -25,7 +25,7 @@ const Pending = () => {
 
 	useEffect(() => {
 		getPendingTasks();
-	}, [tasks])
+	}, [])
 
 	const handleDetailsTask = (taskId: string | number) => {
 		// @ts-expect-error

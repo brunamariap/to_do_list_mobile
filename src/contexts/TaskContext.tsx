@@ -4,60 +4,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import uuid from "react-native-uuid"
 import { Alert } from "react-native";
 
-const TASKS: TaskData[] = [
-	{
-		id: 1,
-		title: "Estudar React",
-		description: "sdyyfb",
-		status: "finished",
-		createdAt: new Date(),
-		isChecked: true,
-	},
-	{
-		id: 2,
-		title: "Estudar Django",
-		description: "sdyyfbdbfdfd jdbyhbdybyfbe ndbfybeuwnme",
-		status: "pending",
-		createdAt: new Date(),
-		isChecked: false,
-	},
-	{
-		id: 3,
-		title: "Almoçar",
-		status: "pending",
-		createdAt: new Date(),
-		isChecked: false,
-	},
-	{
-		id: 4,
-		title: "Ler um livro",
-		status: "pending",
-		createdAt: new Date(),
-		isChecked: false,
-	},
-	{
-		id: 5,
-		title: "Ler um livro",
-		status: "pending",
-		createdAt: new Date(),
-		isChecked: false,
-	},
-	{
-		id: 6,
-		title: "Ler um livro",
-		status: "pending",
-		createdAt: new Date(),
-		isChecked: false,
-	},
-	{
-		id: 7,
-		title: "Ler um livro",
-		status: "pending",
-		createdAt: new Date(),
-		isChecked: false,
-	},
-]
-
 interface TaskProviderProps {
 	children: React.ReactNode;
 }
@@ -109,23 +55,24 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 	}, [tasks])
 
 	async function storeTasks(newTasks: TaskData[]) {
-    try {
-      await AsyncStorage.setItem("@tasks", JSON.stringify(newTasks));
-    } catch (e) {
-      Alert.alert("Opa!", "Não foi possível salvar as tarefas");
-    }
-  }
+		try {
+			await AsyncStorage.setItem("@tasks", JSON.stringify(newTasks));
+		} catch (e) {
+			Alert.alert("Erro", "Não foi possível salvar as tarefas");
+		}
+	}
 
 	const getAllTasks = useCallback(async () => {
 		try {
-      const data = await AsyncStorage.getItem(tasksKey);
-      if (data) {
-        setTasks(JSON.parse(data));
-      }
+			const data = await AsyncStorage.getItem("@tasks");
+			if (data) {
+				const parsedData = JSON.parse(data);
+				setTasks(parsedData);
+			}
 			console.log(data)
-    } catch (e) {
-      Alert.alert("Opa!", "Não foi possível carregar as tarefas");
-    }
+		} catch (e) {
+			Alert.alert("Erro", "Não foi possível carregar as tarefas");
+		}
 	}, [])
 
 	const getPendingTasks = useCallback(async () => {
@@ -133,42 +80,42 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 		setPendingTasks(tasks?.filter((task) => {
 			return task.status === "pending";
 		}))
-	}, [tasks])
+	}, [tasks, getAllTasks])
 
 	const getFinishedTasks = useCallback(async () => {
 		await getAllTasks();
 		setFinishedTasks(tasks?.filter((task) => {
 			return task.status === "finished";
 		}))
-	}, [tasks])
+	}, [tasks, getAllTasks])
 
 	const createTask = useCallback(async (title: string, description?: string) => {
 		setIsLoadingCreateTask(true);
 		const newTask: TaskData = {
-			id: count + 1,
+			id: uuid.v4(),
 			title: title,
 			description: description,
 			status: "pending",
 			// createdAt: new Date(),
 			isChecked: false,
 		}
-		setCount(count + 1)
 		setTasks((prevTasks) => (prevTasks ? [...prevTasks, newTask] : [newTask]));
 
-		// await getPendingTasks();
-		// await getFinishedTasks();
+		await getPendingTasks();
+		await getFinishedTasks();
 		setIsLoadingCreateTask(false);
-	}, [getPendingTasks, getFinishedTasks]);
+	}, [tasks, getPendingTasks, getFinishedTasks]);
 
 	const removeTask = useCallback(async (taskId: string | number) => {
 		setTasks((prevTasks) =>
 			prevTasks?.filter((task) => task.id != taskId)
 		);
+		await getAllTasks();
 		await getPendingTasks();
 		await getFinishedTasks();
-	}, [getPendingTasks, getFinishedTasks]);
+	}, [getAllTasks, getPendingTasks, getFinishedTasks]);
 
-	const handleCheckTask = (taskId: number | string, newStatus: string) => {
+	const handleCheckTask = useCallback(async (taskId: number | string, newStatus: string) => {
 		// @ts-expect-error
 		setTasks((prevTasks) =>
 			prevTasks?.map((task) =>
@@ -180,11 +127,16 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 					} : task
 			)
 		);
-	}
+		await getAllTasks();
+		await getPendingTasks();
+		await getFinishedTasks();
+	}, [tasks, getAllTasks, getPendingTasks, getFinishedTasks])
 
 	useEffect(() => {
 		getAllTasks();
-	})
+		getPendingTasks();
+		getFinishedTasks();
+	}, [])
 
 	useEffect(() => {
 		// AsyncStorage.clear()
