@@ -7,7 +7,6 @@ import Logo from '../../assets/images/logo.svg';
 import { useNavigation } from '@react-navigation/native';
 import { ScreenContainerMain, Scrool } from '../../styles/global';
 import { useTask } from '../../contexts/TaskContext';
-import { TaskData } from '../../interfaces/Task';
 
 const Pending = () => {
 
@@ -17,15 +16,9 @@ const Pending = () => {
 
 	const {
 		tasks,
-		pendingTasks,
 		getTask,
-		getPendingTasks,
 		handleCheckTask,
 	} = useTask();
-
-	useEffect(() => {
-		getPendingTasks();
-	}, [])
 
 	const handleDetailsTask = (taskId: string | number) => {
 		// @ts-expect-error
@@ -34,11 +27,11 @@ const Pending = () => {
 		navigation.navigate('TaskDetails')
 	};
 
-	const filteredTasks = tasks?.filter(
-		({ title, description, status }) =>
-			status === "pending" && (
-				title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				description?.toLowerCase().includes(searchQuery.toLowerCase()))
+	const filteredTasks = tasks?.filter(({ title, description, status }) =>
+		status === "pending" && (
+			title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			description?.toLowerCase().includes(searchQuery.toLowerCase())
+		)
 	);
 
 	return (

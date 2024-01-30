@@ -28,8 +28,6 @@ const AddTask = () => {
 
 	const navigation = useNavigation();
 
-	const [isLoading, setIsLoading] = useState(false);
-
 	const { createTask } = useTask();
 
 	const schema = yup.object().shape({

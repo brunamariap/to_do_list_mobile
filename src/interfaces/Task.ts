@@ -3,6 +3,6 @@ export interface TaskData {
 	title: string;
 	description?: string;
 	status: "pending" | "finished";
-	createdAt?: Date;
+	createdAt: Date;
 	isChecked: boolean;
 }

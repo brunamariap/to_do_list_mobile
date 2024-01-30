@@ -16,19 +16,14 @@ const Finished = () => {
 
 	const {
 		tasks,
-		finishedTasks,
 		getTask,
-		setTasks,
-		getFinishedTasks,
 		handleCheckTask,
 	} = useTask();
 
-	useEffect(() => {
-		getFinishedTasks();
-	}, [])
-
 	const handleDetailsTask = (taskId: string | number) => {
+		// @ts-ignore
 		getTask(taskId);
+		// @ts-ignore
 		navigation.navigate('TaskDetails')
 	};
 
