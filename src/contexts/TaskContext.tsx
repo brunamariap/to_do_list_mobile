@@ -162,11 +162,11 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 
 	const removeTask = useCallback(async (taskId: string | number) => {
 		setTasks((prevTasks) =>
-			prevTasks?.filter((task) => task.id != taskId)
+			prevTasks?.filter((task) => {
+				return task.id != taskId
+			})
 		);
-		await getPendingTasks();
-		await getFinishedTasks();
-	}, [getPendingTasks, getFinishedTasks]);
+	}, []);
 
 	const handleCheckTask = (taskId: number | string, newStatus: string) => {
 		// @ts-expect-error
@@ -183,9 +183,9 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 	}
 
 	useEffect(() => {
-		// getAllTasks();
-		getPendingTasks();
-		getFinishedTasks();
+		getAllTasks();
+		// getPendingTasks();
+		// getFinishedTasks();
 	}, [])
 
 	useEffect(() => {
