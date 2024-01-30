@@ -184,12 +184,11 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 
 	useEffect(() => {
 		// getAllTasks();
-	})
+		getPendingTasks();
+		getFinishedTasks();
+	}, [])
 
 	useEffect(() => {
-		// AsyncStorage.clear()
-		// getPendingTasks();
-		// getFinishedTasks();
 		storeTasks(tasks)
 	}, [tasks])
 

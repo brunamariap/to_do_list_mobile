@@ -34,10 +34,11 @@ const Pending = () => {
 		navigation.navigate('TaskDetails')
 	};
 
-	const filteredTasks = pendingTasks?.filter(
-		({ title, description }) =>
-			title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			description?.toLowerCase().includes(searchQuery.toLowerCase())
+	const filteredTasks = tasks?.filter(
+		({ title, description, status }) =>
+			status === "pending" && (
+				title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				description?.toLowerCase().includes(searchQuery.toLowerCase()))
 	);
 
 	return (

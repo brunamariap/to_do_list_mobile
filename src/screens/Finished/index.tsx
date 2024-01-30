@@ -32,10 +32,11 @@ const Finished = () => {
 		navigation.navigate('TaskDetails')
 	};
 
-	const filteredTasks = finishedTasks?.filter(
-		({ title, description }) =>
+	const filteredTasks = tasks?.filter(
+		({ title, description, status }) =>
+			status === "finished" &&(
 			title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			description?.toLowerCase().includes(searchQuery.toLowerCase())
+			description?.toLowerCase().includes(searchQuery.toLowerCase()))
 	);
 
 	return (
