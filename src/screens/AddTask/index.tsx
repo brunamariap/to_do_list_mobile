@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Heading from "../../components/Heading";
 import Input from "../../components/Input";
 import TextAreaInput from "../../components/TextAreaInput";
@@ -16,7 +16,6 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Controller, useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
-import { TaskData } from "../../interfaces/Task";
 import { useTask } from "../../contexts/TaskContext";
 
 interface CreateTaskData {

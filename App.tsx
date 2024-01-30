@@ -26,6 +26,7 @@ export default function App() {
 	return (
 		<SafeAreaProvider>
 			<TaskProvider>
+				<StatusBar style='auto'/>
 				<Routes />
 			</TaskProvider>
 		</SafeAreaProvider>

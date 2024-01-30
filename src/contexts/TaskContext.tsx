@@ -67,7 +67,6 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 				});
 				setTasks(parsedTasks);
 			}
-			console.log(data)
 		} catch (e) {
 			Alert.alert("Erro", "Não foi possível carregar as tarefas");
 		}
