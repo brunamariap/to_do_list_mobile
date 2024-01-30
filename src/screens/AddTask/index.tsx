@@ -28,8 +28,6 @@ const AddTask = () => {
 
 	const navigation = useNavigation();
 
-	const [isLoading, setIsLoading] = useState(false);
-
 	const { createTask } = useTask();
 
 	const schema = yup.object().shape({
@@ -51,15 +49,7 @@ const AddTask = () => {
 	});
 
 	const onSubmitTask = (data: CreateTaskData) => {
-		const newTask: TaskData = {
-			id: 8,
-			title: data.title,
-			description: data.description,
-			status: "pending",
-			createdAt: new Date(),
-			isChecked: false,
-		}
-		createTask(newTask);
+		createTask(data.title, data.description);
 		navigation.goBack();
 		reset({})
 	};

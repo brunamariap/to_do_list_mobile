@@ -16,26 +16,22 @@ const Finished = () => {
 
 	const {
 		tasks,
-		finishedTasks,
 		getTask,
-		setTasks,
-		getFinishedTasks,
 		handleCheckTask,
 	} = useTask();
 
-	useEffect(() => {
-		getFinishedTasks();
-	}, [])
-
 	const handleDetailsTask = (taskId: string | number) => {
+		// @ts-ignore
 		getTask(taskId);
+		// @ts-ignore
 		navigation.navigate('TaskDetails')
 	};
 
-	const filteredTasks = finishedTasks?.filter(
-		({ title, description }) =>
+	const filteredTasks = tasks?.filter(
+		({ title, description, status }) =>
+			status === "finished" &&(
 			title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			description?.toLowerCase().includes(searchQuery.toLowerCase())
+			description?.toLowerCase().includes(searchQuery.toLowerCase()))
 	);
 
 	return (

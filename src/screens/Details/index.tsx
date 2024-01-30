@@ -27,7 +27,7 @@ const TaskDetails = () => {
 				</BackScreenContainer>
 				<Heading
 					title={task?.title}
-					description={formatDate(task?.createdAt)}
+					description={`Criada em: ${formatDate(task?.createdAt)}`}
 				/>
 
 				<DescriptionContainer>
