@@ -18,15 +18,6 @@ const Stack = createStackNavigator();
 
 const AppRoutes = () => {
 
-	const StackNavigation = () => {
-		<Stack.Navigator>
-			<Stack.Screen
-				name="TaskDetails"
-				component={TaskDetails}
-			/>
-		</Stack.Navigator>
-	}
-
 	const TabNavigation = () => {
 		return (
 			<Tab.Navigator
