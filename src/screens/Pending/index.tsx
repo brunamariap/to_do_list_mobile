@@ -1,23 +1,78 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import ResourceCardsContainer from '../../components/ResourceCardsContainer';
+import TasksContainer from '../../components/TasksContainer';
+import TaskCard from '../../components/TaskCard.py';
+import { useEffect, useState } from 'react';
+import SearchBar from '../../components/SearchBar';
+import Logo from '../../assets/images/logo.svg';
+import { useNavigation } from '@react-navigation/native';
+import { ScreenContainerMain, Scrool } from '../../styles/global';
+import { useTask } from '../../contexts/TaskContext';
 
-export default function Pending() {
+const Pending = () => {
+
+	const navigation = useNavigation();
+
+	const [searchQuery, setSearchQuery] = useState('');
+
+	const {
+		tasks,
+		getTask,
+		handleCheckTask,
+	} = useTask();
+
+	const handleDetailsTask = (taskId: string | number) => {
+		// @ts-expect-error
+		getTask(taskId);
+		// @ts-expect-error
+		navigation.navigate('TaskDetails')
+	};
+
+	const filteredTasks = tasks?.filter(({ title, description, status }) =>
+		status === "pending" && (
+			title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			description?.toLowerCase().includes(searchQuery.toLowerCase())
+		)
+	);
+
 	return (
-		<View style={styles.container}>
-			<Text>Open up App.js to start working on your app!</Text>
-			<StatusBar style="auto" />
-			<TouchableOpacity>
-				<Text>Teste</Text>
-			</TouchableOpacity>
-		</View>
+		<ScreenContainerMain>
+			<Logo />
+			<Scrool
+				showsVerticalScrollIndicator={false}
+				contentContainerStyle={{
+					marginTop: 8,
+					rowGap: 24,
+					flexGrow: 1,
+				}}
+			>
+
+				<SearchBar
+					placeholder='Pesquisar tarefa'
+					onChangeText={(text) => setSearchQuery(text)}
+					value={searchQuery}
+				/>
+				<ResourceCardsContainer />
+
+				<TasksContainer>
+					{filteredTasks?.map((task, index) => (
+						<TaskCard
+							key={index}
+							taskId={task.id}
+							title={task.title}
+							description={task.description}
+							status={task.status}
+							createdAt={task.createdAt}
+							isChecked={task.isChecked}
+							onPress={() => handleDetailsTask(task.id)}
+							setStatus={() => handleCheckTask(task.id, "finished")}
+						/>
+					))}
+				</TasksContainer>
+
+
+			</Scrool>
+		</ScreenContainerMain>
 	);
 }
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: 'rgba(0, 95, 125, 0.7)',
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-});
+export default Pending;

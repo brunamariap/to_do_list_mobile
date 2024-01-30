@@ -1,21 +1,34 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { Colors } from './src/styles/themes';
+import {
+	useFonts,
+	Inter_300Light,
+	Inter_400Regular,
+	Inter_600SemiBold,
+	Inter_700Bold
+} from '@expo-google-fonts/inter';
+import Routes from './src/routes';
+import { SafeAreaProvider } from "react-native-safe-area-context"
+import { TaskProvider } from './src/contexts/TaskContext';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.primaryTransparentMin,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+	let [fontsLoaded] = useFonts({
+		Inter_300Light,
+		Inter_400Regular,
+		Inter_600SemiBold,
+		Inter_700Bold,
+	});
+
+	if (!fontsLoaded) {
+		return null
+	}
+
+	return (
+		<SafeAreaProvider>
+			<TaskProvider>
+				<StatusBar style='auto'/>
+				<Routes />
+			</TaskProvider>
+		</SafeAreaProvider>
+	);
+}
